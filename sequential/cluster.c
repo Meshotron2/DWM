@@ -255,7 +255,7 @@ void writeExcitation(float** buf, const int receiverCount, const int iterationCn
 		if (!file)
 		{
 			perror("Error");
-			return EXIT_FAILURE;
+			exit(EXIT_FAILURE);
 		}
 		fwrite(buf[i], sizeof(float), iterationCnt, file);
 		fclose(file);
