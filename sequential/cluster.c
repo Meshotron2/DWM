@@ -198,31 +198,31 @@ void delayPass(const Header* h, Node*** ns)
 			{
 				n = &(ns[x][y][z]);
 
-				if (x != 0)	// back
+				if (x != 0) // back
 				{
-					ns[x - 1][y][z].pBackI = n->pBackO;
+					ns[x - 1][y][z].pFrontI = n->pBackO;
 				}
-				if (x < h->x-1) // front
+				if (x < h->x - 1) // front
 				{
-					ns[x + 1][y][z].pFrontI = n->pFrontO;
-				}
-
-				if (y != 0)	// left
-				{
-					ns[x][y - 1][z].pLeftI = n->pLeftO;
-				}
-				if (y < h->y-1) // right
-				{
-					ns[x][y + 1][z].pRightI = n->pRightO;
+					ns[x + 1][y][z].pBackI = n->pFrontO;
 				}
 
-				if (z != 0)	// down
+				if (y != 0) // left
 				{
-					ns[x][y][z - 1].pDownI = n->pDownO;
+					ns[x][y - 1][z].pRightI = n->pLeftO;
 				}
-				if (z < h->z-1) // up
+				if (y < h->y - 1) // right
 				{
-					ns[x][y][z + 1].pUpI = n->pUpO;
+					ns[x][y + 1][z].pLeftI = n->pRightO;
+				}
+
+				if (z != 0) // down
+				{
+					ns[x][y][z - 1].pUpI = n->pDownO;
+				}
+				if (z < h->z - 1) // up
+				{
+					ns[x][y][z + 1].pDownI = n->pUpO;
 				}
 			}
 		}
