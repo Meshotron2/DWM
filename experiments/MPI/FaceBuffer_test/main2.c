@@ -26,17 +26,40 @@ int main()
     {
         destination = 1;
         logFile = "0.txt";
-        face = Top;
+        face = Front;
     }
     else
     {
         destination = 0;
         logFile = "1.txt";
-        face = Bottom;
+        face = Back;
     }
 
-    FaceBuffer f = allocFaceBuffer(face, &h);
+    FaceBuffer f = allocFaceBuffer(face, &h, destination);
     FILE *fout = fopen(logFile, "wb");
+
+    int cnt = 0;
+    for (int i = 0; i < h.x; i++)
+    {
+        for (int j = 0; j < h.x; j++)
+        {
+            for (int k = 0; k < h.x; k++)
+            {
+                Node n = {0};
+                n.pUpO = cnt * (world_rank+1);
+                n.pDownO = cnt * (world_rank+1);
+                n.pRightO = cnt * (world_rank+1);
+                n.pLeftO = cnt * (world_rank+1);
+                n.pFrontO = cnt * (world_rank+1);
+                n.pBackO = cnt * (world_rank+1);
+                nodes[i][j][k] = n;
+                fprintf(fout, "%f ", n.pFrontO);
+                cnt++;
+            }
+            fprintf(fout, "\n");
+        }
+        fprintf(fout, "\n------------------\n");
+    }
 
     printf("Process: %d beginning main loop\n", world_rank);
 
@@ -48,12 +71,13 @@ int main()
         printf("Process: %d beginning iteration: %d\n", world_rank, i);
         clock_gettime(CLOCK_MONOTONIC, &start);
 
-        fillFaceBuffer(nodes, &h, &f, fout);
+        fillFaceBuffer(nodes, &h, &f);
 
         MPI_Request request;
-        MPI_Isend(&(f.out[0][0]), f.x * f.y, MPI_FLOAT, destination, 0, MPI_COMM_WORLD, &request);
+        MPI_Isend(&(f.out[0][0]), f.x * f.y, MPI_FLOAT, destination, f.neighbourFace, MPI_COMM_WORLD, &request);
 
-        MPI_Recv(&(f.in[0][0]), f.x * f.y, MPI_FLOAT, destination, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(&(f.in[0][0]), f.x * f.y, MPI_FLOAT, destination, f.face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        readFaceBuffer(nodes, &h, &f);
 
         MPI_Wait(&request, MPI_STATUS_IGNORE);
 
@@ -67,14 +91,44 @@ int main()
             fprintf(fout, "\n");
         }
         fprintf(fout, "Got:\n");
-        for (uint32_t x = 0; x < f.x; x++)
+        if (world_rank == 0)
         {
-            for (uint32_t y = 0; y < f.y; y++)
+            for (int i = (h.x - 1); i <= (h.x - 1); i++)
             {
-                fprintf(fout, "%f ", f.in[x][y]);
+                for (int j = 0; j < h.x; j++)
+                {
+                    for (int k = 0; k < h.x; k++)
+                    {
+                        fprintf(fout, "%f ", nodes[i][j][k].pFrontI);
+                    }
+                    fprintf(fout, "\n");
+                }
+                fprintf(fout, "\n------------------\n");
             }
-            fprintf(fout, "\n");
         }
+        else
+        {
+            for (int i = 0; i <= 0; i++)
+            {
+                for (int j = 0; j < h.x; j++)
+                {
+                    for (int k = 0; k < h.x; k++)
+                    {
+                       fprintf(fout, "%f ", nodes[i][j][k].pBackI);
+                    }
+                    fprintf(fout, "\n");
+                }
+                fprintf(fout, "\n------------------\n");
+            }
+        }
+        // for (uint32_t x = 0; x < f.x; x++)
+        // {
+        //     for (uint32_t y = 0; y < f.y; y++)
+        //     {
+        //         fprintf(fout, "%f ", f.in[x][y]);
+        //     }
+        //     fprintf(fout, "\n");
+        // }
 
         // usleep(rand() % 1000000);
         // if (world_rank == 0)
