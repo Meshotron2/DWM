@@ -2,28 +2,33 @@
 
 int main(int argc, char *argv[])
 {
-	if (argc < 4)
-	{
-		fprintf(stderr, "Missing argument <file> <runtime>\n");
-		return EXIT_FAILURE;
-	}
+	// most things will be hardcoded for now
+	MPI_Init(NULL, NULL);
 
-	FILE *inFile = fopen(argv[1], "rb");
-	if (!inFile) 
-	{
-		perror("Error");
-		return EXIT_FAILURE;
-	}
+	int world_rank, world_size;
+	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
+	// only one communicating face for now
+	// hardcoded for now. we'll load this from a config given to us by the "server"
+	FILE *inFile;
 	Header h = { 0 };
-	fread(&h, sizeof(Header), 1, inFile);
-
-	int iterationCnt = (int)ceil(atof(argv[2]) * h.frequency);
-	if (!iterationCnt)
+	FaceBuffer face;
+	int dest;
+	if (world_rank == 0)
 	{
-		fprintf(stderr, "Failed to parse <runtime>. Exiting.");
-		exit(EXIT_FAILURE);
+		inFile = fopen("room_0.dwm", "rb");
+		fread(&h, sizeof(Header), 1, inFile);
+		face = allocFaceBuffer(Front, &h, 1);
 	}
+	else
+	{
+		inFile = fopen("room_1.dwm", "rb");
+		fread(&h, sizeof(Header), 1, inFile);
+		face = allocFaceBuffer(Back, &h, 0);
+	}
+
+	int iterationCnt = 8000;
 	
 	printf("%d, %d, %d @ %d\n", h.x, h.y, h.z, h.frequency);
 
@@ -35,51 +40,19 @@ int main(int argc, char *argv[])
 	Node** sources;
 	int sourceCnt = getAllNodesOfType(&sources, &h, nodes, SRC_NODE);
 
-	if (sourceCnt == 0)
-	{
-		fprintf(stderr, "No sources found. Exiting.\n");
-		exit(EXIT_FAILURE);
-	}
+	char* source = "source.pcm";
 
-	if (argc - 3 != sourceCnt)
-	{
-		fprintf(stderr, "Not enough source files");
-		exit(EXIT_FAILURE);
-	}
-
-	float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
+	float** sourceData = readSourceFiles(&source, sourceCnt, iterationCnt);
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
 
-	if (receiverCnt == 0)
-	{
-		fprintf(stderr, "No receivers found. Exiting.\n");
-		exit(EXIT_FAILURE);
-	}
-
 	float** receiversData = allocReceiversMemory(receiverCnt, iterationCnt);
 
-	// most things will be hardcoded for now
-	MPI_Init(NULL, NULL);
-
-	int world_rank, world_size;
-	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
-
-	// only one communicating face for now
-	FaceBuffer face;
-	if (world_rank == 0)
-	{
-		face = allocFaceBuffer(Top, &h, 1);
-	}
-	else
-	{
-		face = allocFaceBuffer(Bottom, &h, 0);
-	}
-
 	FaceBuffer* connectedFaces = &face;
-	int connectedFaceCnt = 1;
+	int connectedFacesCnt = 1;
+
+	printf("Process %d, sources: %d, receivers: %d\n", world_rank, sourceCnt, receiverCnt);
 
 	// DWM algorithm loop
 	for (int i = 0; i < iterationCnt; i++)
@@ -94,28 +67,28 @@ int main(int argc, char *argv[])
 		readSamples(receivers, receiversData, receiverCnt, i);
 
 		//process faces
-		for (int f = 0; f < connectedFaceCnt; f++)
+		MPI_Request req;
+		for (int f = 0; f < connectedFacesCnt; f++)
 		{
 			FaceBuffer* cFace = &(connectedFaces[f]);
 			fillFaceBuffer(nodes, &h, cFace);
 			// the tag allows us to differenciate between messages
 			// the facebuffer struct contains the opposing face so we will use that as the tag
 			// async send
-			MPI_Isend(cFace->outData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->neighbourFace, MPI_COMM_WORLD, MPI_REQUEST_NULL);
+			MPI_Isend(cFace->outData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->neighbourFace, MPI_COMM_WORLD, &req);
 		}
 		
-		// this function currently only processed internal nodes i.e. nodes that aren't part of any face.
-		// some faces might not be connected to another process so we need to process those also
-		internalDelayPass(&h, nodes);
-
-		//receive data
-		for (int f = 0; f < connectedFaceCnt; f++)
+		// remember to look into optimizing this
+		// it won't be pretty but definitely faster
+		delayPass(&h, nodes);
+		for (int f = 0; f < connectedFacesCnt; f++)
 		{
 			FaceBuffer* cFace = &(connectedFaces[f]);
 			// blocking receive
-			MPI_Recv(cFace->inData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Recv(cFace->inData, cFace->x * cFace->y, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			// and process it
-			readFaceBuffer(nodes, &h, cFace);
+			readFaceBuffer(nodes, &h, &(connectedFaces[0]));
+			MPI_Wait(&req, MPI_STATUS_IGNORE);
 		}
 	}
 
@@ -125,6 +98,8 @@ int main(int argc, char *argv[])
 	freeAllNodesOfType(&receivers);
 	freeAllNodesOfType(&sources);
 	freeReceiversMemory(&receiversData, receiverCnt);
+
+	MPI_Finalize();
 
 	return EXIT_SUCCESS;
 }
@@ -152,7 +127,7 @@ void injectSamples(Node** n, float** sourceData, const int sourceCount, const in
 	}
 }
 
-void internalDelayPass(const Header* h, Node*** ns)
+void delayPass(const Header* h, Node*** ns)
 {
 /*   up
 *    |z
@@ -165,22 +140,41 @@ void internalDelayPass(const Header* h, Node*** ns)
 	Node* n;
 	int x, y, z;
 
-	// all nodes here have 6 neighbours. so no need to check
+	// this loop can be optimized to not have to do these ifs and only process nodes that have all neighbours but then we'd have to process all the others seperately.
+	// its fine for now, but worth looking into after
 
-	for (x = 1; x < h->x-1; x++)
-	for (y = 1; y < h->y-1; y++)
-	for (z = 1; z < h->z-1; z++)
+	for (x = 0; x < h->x; x++)
+	for (y = 0; y < h->y; y++)
+	for (z = 0; z < h->z; z++)
 	{
 		n = &(ns[x][y][z]);
 
-		ns[x - 1][y][z].pBackI = n->pBackO;
-		ns[x + 1][y][z].pFrontI = n->pFrontO;
+		if (x != 0) // back
+		{
+			ns[x - 1][y][z].pFrontI = n->pBackO;
+		}
+		if (x < h->x-1) // front
+		{
+			ns[x + 1][y][z].pBackI = n->pFrontO;
+		}
 
-		ns[x][y - 1][z].pLeftI = n->pLeftO;
-		ns[x][y + 1][z].pRightI = n->pRightO;
+		if (y != 0) // left
+		{
+			ns[x][y - 1][z].pRightI = n->pLeftO;
+		}
+		if (y < h->y-1) // right
+		{
+			ns[x][y + 1][z].pLeftI = n->pRightO;
+		}
 
-		ns[x][y][z - 1].pDownI = n->pDownO;
-		ns[x][y][z + 1].pUpI = n->pUpO;
+		if (z != 0) // down
+		{
+			ns[x][y][z - 1].pUpI = n->pDownO;
+		}
+		if (z < h->z-1) // up
+		{
+			ns[x][y][z + 1].pDownI = n->pUpO;
+		}
 	}
 }
 
@@ -263,7 +257,7 @@ void writeExcitation(float** buf, const int receiverCount, const int iterationCn
 
 float** readSourceFiles(char** argv, const int sourceFileCnt, const int iterationCnt)
 {
-	if (sourceFileCnt <= 0 || iterationCnt <= 0) exit(EXIT_FAILURE);
+	if (sourceFileCnt <= 0 || iterationCnt <= 0) return NULL;
 	
 	FILE* f;
 

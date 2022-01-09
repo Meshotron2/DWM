@@ -14,7 +14,7 @@ void readSamples(Node** n, float** buf, const int receiverCount, const int itera
 
 void scatterPass(const Header* h, Node*** ns);
 
-void internalDelayPass(const Header* h, Node*** ns);
+void delayPass(const Header* h, Node*** ns);
 
 void writeExcitation(float** buf, const int receiverCount, const int iterationCnt);
 	
