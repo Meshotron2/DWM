@@ -141,7 +141,7 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 	{
 		for (int y = 0; y < header->y; y++)
 		{
-			for (int z = 0; z < header->x; z++)
+			for (int z = 0; z < header->z; z++)
 			{
 				if (nodes[x][y][z].type == type)
 				{
@@ -171,7 +171,7 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 	{
 		for (int y = 0; y < header->y; y++)
 		{
-			for (int z = 0; z < header->x; z++)
+			for (int z = 0; z < header->z; z++)
 			{
 				if (nodes[x][y][z].type == type)
 				{

@@ -122,7 +122,7 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 	{
 		for (int y = 0; y < header->y; y++)
 		{
-			for (int z = 0; z < header->x; z++)
+			for (int z = 0; z < header->z; z++)
 			{
 				if (nodes[x][y][z].type == type)
 				{
@@ -132,7 +132,11 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 		}
 	}
 
-	if (!nodeCount) return 0;
+	if (!nodeCount)
+	{
+		*buf = NULL;
+		return 0;
+	}
 
 	//allocate required memory
 	n = malloc(sizeof(Node*) * nodeCount);
@@ -148,7 +152,7 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 	{
 		for (int y = 0; y < header->y; y++)
 		{
-			for (int z = 0; z < header->x; z++)
+			for (int z = 0; z < header->z; z++)
 			{
 				if (nodes[x][y][z].type == type)
 				{
@@ -165,13 +169,14 @@ int getAllNodesOfType(Node*** buf, const Header* header, Node*** nodes, const ch
 
 void freeAllNodesOfType(Node*** buf)
 {
+	if (*buf == NULL) return;
 	free(*buf);
 	*buf = NULL;
 }
 
 float** allocReceiversMemory(const int receiverCount, const int iterationCount)
 {
-	if (receiverCount == 0) return 0;
+	if (receiverCount == 0) return NULL;
 
 	float** fpArr = malloc(sizeof(float*) * receiverCount);
 
@@ -197,6 +202,7 @@ float** allocReceiversMemory(const int receiverCount, const int iterationCount)
 
 void freeReceiversMemory(float*** buf, const int receiverCount)
 {
+	if (*buf == NULL) return;
 	for (int i = 0; i < receiverCount; i++)
 	{
 		free((*buf)[i]);

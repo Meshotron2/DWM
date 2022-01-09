@@ -21,3 +21,5 @@ void writeExcitation(float** buf, const int receiverCount, const int iterationCn
 void fixHeaderEndian(Header*);
 
 float** readSourceFiles(char** argv, const int sourceFileCnt, const int iterationCnt);
+
+void freeSourceData(float*** buf, int sourceCnt);

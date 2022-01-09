@@ -98,6 +98,7 @@ int main(int argc, char *argv[])
 	freeAllNodesOfType(&receivers);
 	freeAllNodesOfType(&sources);
 	freeReceiversMemory(&receiversData, receiverCnt);
+	freeSourceData(&sourceData, sourceCnt);
 
 	MPI_Finalize();
 
@@ -252,6 +253,7 @@ void writeExcitation(float** buf, const int receiverCount, const int iterationCn
 		}
 		fwrite(buf[i], sizeof(float), iterationCnt, file);
 		fclose(file);
+		free(filename);
 	}
 }
 
@@ -301,4 +303,15 @@ float** readSourceFiles(char** argv, const int sourceFileCnt, const int iteratio
 	}
 
 	return sourceData;
+}
+
+void freeSourceData(float*** buf, int sourceCnt)
+{
+	if (*buf == NULL) return;
+	for (int i = 0; i < sourceCnt; i++)
+	{
+		free((*buf)[i]);
+	}
+	free(*buf);
+	*buf = NULL;
 }
