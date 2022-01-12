@@ -6,7 +6,6 @@
 
 #include"types.h"
 #include"node.h"
-void readNodes(Node ***node, Header *h, FILE *inFile); 
 
 void injectSamples(Node** n, float** sourceData, const int sourceCount, const int iteration);
 

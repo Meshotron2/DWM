@@ -51,6 +51,8 @@ typedef struct Node {
 // This function allocates memory that must be released by calling free_nodes()
 Node*** allocNodes(const Header* header);
 void freeNodes(const Header* header, Node*** nodes);
+// Reads the nodes from a file into a 3D Node array
+void readNodes(Node ***nodes, Header *h, FILE *inFile);
 // Returns the reflection coefficient for a given node based on its type
 float getNodeReflectionCoefficient(const Node* n);
 // Makes buf point to a Node* array of type 

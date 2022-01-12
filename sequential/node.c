@@ -63,6 +63,27 @@ void freeNodes(const Header* header, Node*** nodes)
 	free(nodes);
 }
 
+void readNodes(Node ***nodes, Header *h, FILE *inFile) 
+{
+	printf("ROOM: %d %d %d\n", h->x, h->y, h->z);
+
+	// Clear node
+	Node n = { 0 };
+	char c;
+
+	int x, y, z;
+	for (x = 0; x < h->x; x++)
+		for (y = 0; y < h->y; y++)
+			for (z = 0; z < h->z; z++)
+			{
+				fread(&c, sizeof(char), 1, inFile);
+				// Copy the clear node to nodes
+				nodes[x][y][z] = n;
+				// set node type
+				nodes[x][y][z].type = c;
+			}
+}
+
 float getNodeReflectionCoefficient(const Node* n)
 {
 	switch (n->type)
