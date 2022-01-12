@@ -50,6 +50,14 @@ FaceBuffer allocFaceBuffer(Faces f, Header* h, int neighbour)
     return buf;
 }
 
+void freeFaceBuffer(FaceBuffer* buf)
+{
+    free(buf->outData);
+    free(buf->inData);
+    free(buf->out);
+    free(buf->in);
+}
+
 void fillFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf)
 {
     uint32_t i = 0;

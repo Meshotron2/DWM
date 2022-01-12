@@ -20,6 +20,7 @@ typedef struct FaceBuffer
 } FaceBuffer;
 
 FaceBuffer allocFaceBuffer(Faces f, Header* h, int neighbour);
+void freeFaceBuffer(FaceBuffer* buf);
 void fillFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf);
 void readFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf);
 Faces getOpposingFace(Faces f);
