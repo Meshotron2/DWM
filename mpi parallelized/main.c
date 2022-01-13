@@ -2,57 +2,49 @@
 
 int main(int argc, char *argv[])
 {
-	// most things will be hardcoded for now
-	MPI_Init(NULL, NULL);
+	MPI_Init(&argc, &argv);
+
+	if (argc != 2)
+	{
+		fprintf(stderr, "Bad arguments\nInvoke should look something like:\nmpirun -n 2 ./mpi <run time>\n");
+		exit(EXIT_FAILURE);
+	}
 
 	int world_rank, world_size;
 	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-	// only one communicating face for now
-	// hardcoded for now. we'll load this from a config given to us by the "server"
-	FILE *inFile;
+	Config cfg = readConfigFile(world_rank);
+
 	Header h = { 0 };
-	FaceBuffer face;
-	int dest;
-	if (world_rank == 0)
-	{
-		inFile = fopen("room_0.dwm", "rb");
-		fread(&h, sizeof(Header), 1, inFile);
-		face = allocFaceBuffer(Front, &h, 1);
-	}
-	else
-	{
-		inFile = fopen("room_1.dwm", "rb");
-		fread(&h, sizeof(Header), 1, inFile);
-		face = allocFaceBuffer(Back, &h, 0);
-	}
-
-	int iterationCnt = 8000;
-	
-	printf("%d, %d, %d @ %d\n", h.x, h.y, h.z, h.frequency);
-
+	FILE* inFile = fopen(cfg.roomFileName, "rb");
+	fread(&h, sizeof(Header), 1, inFile);
 	Node*** nodes = allocNodes(&h);
 	readNodes(nodes, &h, inFile);
-
 	fclose(inFile);
+
+	for (int i = 0; i < cfg.faceCount; i++)
+	{
+		setupFaceBuffer(&(cfg.faces[i]), &h);
+	}
+ 
+	int iterationCnt = (int)ceil(atof(argv[1]) * h.frequency);
 
 	Node** sources;
 	int sourceCnt = getAllNodesOfType(&sources, &h, nodes, SRC_NODE);
+	if (sourceCnt != cfg.sourceCnt)
+	{
+		fprintf(stderr, "Number of source files doesn't match the number of source nodes");
+	}
 
-	char* source = "source.pcm";
-
-	float** sourceData = readSourceFiles(&source, sourceCnt, iterationCnt);
+	float** sourceData = readSourceFiles(cfg.sourceFileNames, cfg.sourceCnt, iterationCnt);
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
 
 	float** receiversData = allocReceiversMemory(receiverCnt, iterationCnt);
 
-	FaceBuffer* connectedFaces = &face;
-	int connectedFacesCnt = 1;
-
-	printf("Process %d, sources: %d, receivers: %d\n", world_rank, sourceCnt, receiverCnt);
+	printf("Process %d beginning DWM loop. Has %d faces %d sources and %d receivers\n", world_rank, cfg.faceCount, sourceCnt, receiverCnt);
 
 	// DWM algorithm loop
 	for (int i = 0; i < iterationCnt; i++)
@@ -68,9 +60,9 @@ int main(int argc, char *argv[])
 
 		//process faces
 		MPI_Request req;
-		for (int f = 0; f < connectedFacesCnt; f++)
+		for (int f = 0; f < cfg.faceCount; f++)
 		{
-			FaceBuffer* cFace = &(connectedFaces[f]);
+			FaceBuffer* cFace = &(cfg.faces[f]);
 			fillFaceBuffer(nodes, &h, cFace);
 			// the tag allows us to differenciate between messages
 			// the facebuffer struct contains the opposing face so we will use that as the tag
@@ -81,14 +73,13 @@ int main(int argc, char *argv[])
 		// remember to look into optimizing this
 		// it won't be pretty but definitely faster
 		delayPass(&h, nodes);
-		for (int f = 0; f < connectedFacesCnt; f++)
+		for (int f = 0; f < cfg.faceCount; f++)
 		{
-			FaceBuffer* cFace = &(connectedFaces[f]);
+			FaceBuffer* cFace = &(cfg.faces[f]);
 			// blocking receive
-			MPI_Recv(cFace->inData, cFace->x * cFace->y, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+			MPI_Recv(cFace->inData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			// and process it
-			readFaceBuffer(nodes, &h, &(connectedFaces[0]));
-			MPI_Wait(&req, MPI_STATUS_IGNORE);
+			readFaceBuffer(nodes, &h, cFace);
 		}
 	}
 
@@ -99,6 +90,7 @@ int main(int argc, char *argv[])
 	freeAllNodesOfType(&sources);
 	freeReceiversMemory(&receiversData, receiverCnt);
 	freeSourceData(&sourceData, sourceCnt);
+	freeConfig(&cfg);
 
 	MPI_Finalize();
 

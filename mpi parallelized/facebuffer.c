@@ -1,11 +1,11 @@
 #include "facebuffer.h"
 
 // https://stackoverflow.com/a/5901671
-FaceBuffer allocFaceBuffer(Faces f, Header* h, int neighbour)
+void setupFaceBuffer(FaceBuffer* f, Header* h)
 {
     uint32_t size, x, y;
 
-    switch (f)
+    switch (f->face)
     {
     case Top:
     case Bottom:
@@ -46,8 +46,13 @@ FaceBuffer allocFaceBuffer(Faces f, Header* h, int neighbour)
         outArray[i] = &(outData[y*i]);
     }
 
-    FaceBuffer buf = { f, neighbour, getOpposingFace(f), x, y, x * y, inData, inArray, outData, outArray };
-    return buf;
+    f->x = x;
+    f->y = y;
+    f->size = size;
+    f->inData = inData;
+    f->in = inArray;
+    f->outData = outData;
+    f->out = outArray;
 }
 
 void freeFaceBuffer(FaceBuffer* buf)

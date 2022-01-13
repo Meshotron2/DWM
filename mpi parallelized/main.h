@@ -7,6 +7,7 @@
 #include "node.h"
 #include "facebuffer.h"
 #include "header.h"
+#include "config.h"
 
 void injectSamples(Node** n, float** sourceData, const int sourceCount, const int iteration);
 

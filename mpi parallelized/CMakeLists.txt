@@ -13,7 +13,7 @@ set(CMAKE_C_FLAGS "-Wall -Wextra")
 set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
-add_executable(mpi "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h")
+add_executable(mpi "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h" "config.c" "config.h")
 ADD_LIBRARY(math STATIC IMPORTED)
 target_link_libraries(mpi m)
 
