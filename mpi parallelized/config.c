@@ -93,6 +93,7 @@ Config readConfigFile(int rank)
         removeNewLine(cfg.sourceFileNames[i]);
     }
 
+    free(configFile);
     fclose(config);
 
     return cfg;
