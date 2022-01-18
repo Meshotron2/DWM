@@ -3,6 +3,16 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_C_FLAGS "-Wall -Wextra")
+set(CMAKE_C_FLAGS_DEBUG "-g")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
+
 # Add source to this project's executable.
 add_executable (Cluster "cluster.c" "types.h" "cluster.h" "node.c" "node.h")
 
