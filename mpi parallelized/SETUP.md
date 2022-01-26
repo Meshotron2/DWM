@@ -1,4 +1,4 @@
-# Installing OpenMPI in Linux
+# Installing OpenMPI on Linux
 
 First download the latest stable version from [here](https://www.open-mpi.org/software/). Then run the following commands in a command-line:
 
@@ -50,10 +50,13 @@ Host host
 
 # Testing 
 
-If you set everything up correctly you should now be able run the following command and see `Hello World!` displayed on your console.
+If you set everything up correctly you should now be able run the following commands successfully.
 
 ```bash
-mpirun -n 1 -host hostname echo "Hello World!"
+ssh hostname # you shouldn't be asked for a username or a password
+exit
+
+mpirun -n 1 -host hostname echo "Hello World!" # you should see Hello World!
 ```
 
 # Usefull Links
