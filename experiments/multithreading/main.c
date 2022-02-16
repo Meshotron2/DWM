@@ -26,11 +26,9 @@ int main(int argc, char** argv)
     pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t) * nThreads);
 
     pthread_barrier_t barrier; 
-    // pthread_barrierattr_t attr;
+	pthread_barrier_init(&barrier, NULL, nThreads);
 
 	ThreadArgs* tArgs = setupThreadArgs(&h, nodes, &barrier, XDIVFACTOR, YDIVFACTOR, ZDIVFACTOR, NITERATIONS);
-
-    pthread_barrier_init(&barrier, NULL, nThreads);
 
 	struct timespec start, now;
 	clock_gettime(CLOCK_MONOTONIC, &start);
@@ -60,77 +58,133 @@ int main(int argc, char** argv)
     return 0;
 }
 
+// to-do: get rid of the 3d array 
 ThreadArgs* setupThreadArgs(Header* h, Node*** nodes, pthread_barrier_t* barrier, int xDivFactor, int yDivFactor, int zDivFactor, int nIterations)
 {
 	int n = xDivFactor * yDivFactor * zDivFactor;
 
-	ThreadArgs* tArgs = (ThreadArgs*)calloc(n, sizeof(ThreadArgs));
-
 	int xCount = h->x / xDivFactor;
 	int yCount = h->y / yDivFactor;
 	int zCount = h->z / zDivFactor;
-	int xRem = h->x % xDivFactor;
-	int yRem = h->y % yDivFactor;
-	int zRem = h->z % zDivFactor;
 
+	ThreadArgs*** tArgs = (ThreadArgs***)malloc(xCount * sizeof(ThreadArgs**));
+
+	for (int i = 0; i < xCount; i++)
+	{
+		tArgs[i] = (ThreadArgs**)malloc(yCount * sizeof(ThreadArgs*));
+
+		for (int j = 0; j < yCount; j++)
+		{
+			tArgs[i][j] = (ThreadArgs*)calloc(zCount, sizeof(ThreadArgs));
+		}
+	}
+	
+	int xRem = h->x % xDivFactor;
 	int i = 0;
 	for(int x = 0; x < xDivFactor; x++)
 	{
+		int yRem = h->y % yDivFactor;
+		
 		for(int y = 0; y < yDivFactor; y++)
 		{
+			int zRem = h->z % zDivFactor;
+			
 			for(int z = 0; z < zDivFactor; z++)
 			{
-				tArgs[i].threadId = i;
-				tArgs[i].barrier = barrier;
-				tArgs[i].nodes = nodes;
-				tArgs[i].header = h;
-				tArgs[i].nIterations = nIterations;
-				tArgs[i].xi += xCount * x;
-				tArgs[i].xf += xCount * (x+1) - 1;
-				tArgs[i].yi += yCount * y;
-				tArgs[i].yf += yCount * (y+1) - 1;
-				tArgs[i].zi += zCount * z;
-				tArgs[i].zf += zCount * (z+1) - 1;
+				tArgs[x][y][z].threadId = i;
+				tArgs[x][y][z].barrier = barrier;
+				tArgs[x][y][z].nodes = nodes;
+				tArgs[x][y][z].header = h;
+				tArgs[x][y][z].nIterations = nIterations;
+				tArgs[x][y][z].xi += xCount * x;
+				tArgs[x][y][z].xf += xCount * (x+1) - 1;
+				tArgs[x][y][z].yi += yCount * y;
+				tArgs[x][y][z].yf += yCount * (y+1) - 1;
+				tArgs[x][y][z].zi += zCount * z;
+				tArgs[x][y][z].zf += zCount * (z+1) - 1;
 
 				if (xRem > 0)
 				{
-					tArgs[i].xf++;
-					for(int k = i+1; k < n; k++)
+					for (int m = 0; m < yCount; m++)
 					{
-						tArgs[k].xi++;
-						tArgs[k].xf++;
+						for (int n = 0; n < zCount; n++)
+						{
+							tArgs[x][m][n].xf++;
+						}
+					}
+					for(int k = x+1; k < xCount; k++)
+					{
+						for (int m = 0; m < yCount; m++)
+						{
+							for (int n = 0; n < zCount; n++)
+							{
+								tArgs[k][m][n].xi++;
+								tArgs[k][m][n].xf++;
+							}
+						}
 					}
 					xRem--;
 				}
 				if (yRem > 0)
 				{
-					tArgs[i].yf++;
-					for(int k = i+1; k < n; k++)
+					for (int m = 0; m < zCount; m++)
 					{
-						tArgs[k].yi++;
-						tArgs[k].yf++;
+						tArgs[x][y][m].yf++;
+					}
+					for(int k = y+1; k < yCount; k++)
+					{
+						for (int m = 0; m < yCount; m++)
+						{
+							tArgs[x][k][m].yi++;
+							tArgs[x][k][m].yf++;
+						}
 					}
 					yRem--;
 				}
 				if (zRem > 0)
 				{
-					tArgs[i].zf++;
-					for(int k = i+1; k < n; k++)
+					tArgs[x][y][z].zf++;
+					for(int k = z+1; k < zCount; k++)
 					{
-						tArgs[k].zi++;
-						tArgs[k].zf++;
+						tArgs[x][y][k].zi++;
+						tArgs[x][y][k].zf++;
 					}
 					zRem--;
 				}
-
-				printf("Thread %d xi %d xf %d yi %d yf %d zi %d zf %d \n", i, tArgs[i].xi, tArgs[i].xf, tArgs[i].yi, tArgs[i].yf, tArgs[i].zi, tArgs[i].zf);
 
 				i++;
 			}
 		}
 	}
 
-	return tArgs;
+	ThreadArgs* t = (ThreadArgs*)malloc(n * sizeof(ThreadArgs));
+
+	i = 0;
+	for(int x = 0; x < xDivFactor; x++)
+	{
+		for(int y = 0; y < yDivFactor; y++)
+		{
+			for(int z = 0; z < zDivFactor; z++)
+			{
+				t[i] = tArgs[x][y][z];
+				
+				printf("Thread %d xi %d xf %d yi %d yf %d zi %d zf %d \n", i, tArgs[x][y][z].xi, tArgs[x][y][z].xf, tArgs[x][y][z].yi, tArgs[x][y][z].yf, tArgs[x][y][z].zi, tArgs[x][y][z].zf);
+				i++;
+			}
+		}
+	}
+
+	for (int i = 0; i < xDivFactor; i++)
+	{
+		for (int j = 0; j < yDivFactor; j++)
+		{
+			free(tArgs[i][j]);
+		}
+		free(tArgs[i]);
+	}
+	free(tArgs);	
+
+	return t;
 }
 
 void* thread(void* args)
