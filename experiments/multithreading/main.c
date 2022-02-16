@@ -60,16 +60,18 @@ int main(int argc, char** argv)
     return 0;
 }
 
-// Fix the remainders thing
 ThreadArgs* setupThreadArgs(Header* h, Node*** nodes, pthread_barrier_t* barrier, int xDivFactor, int yDivFactor, int zDivFactor, int nIterations)
 {
 	int n = xDivFactor * yDivFactor * zDivFactor;
 
-	ThreadArgs* tArgs = (ThreadArgs*)malloc(sizeof(ThreadArgs) * n);
+	ThreadArgs* tArgs = (ThreadArgs*)calloc(n, sizeof(ThreadArgs));
 
 	int xCount = h->x / xDivFactor;
 	int yCount = h->y / yDivFactor;
 	int zCount = h->z / zDivFactor;
+	int xRem = h->x % xDivFactor;
+	int yRem = h->y % yDivFactor;
+	int zRem = h->z % zDivFactor;
 
 	int i = 0;
 	for(int x = 0; x < xDivFactor; x++)
@@ -83,12 +85,43 @@ ThreadArgs* setupThreadArgs(Header* h, Node*** nodes, pthread_barrier_t* barrier
 				tArgs[i].nodes = nodes;
 				tArgs[i].header = h;
 				tArgs[i].nIterations = nIterations;
-				tArgs[i].xi = xCount * x;
-				tArgs[i].xf = xCount * (x+1) - 1;
-				tArgs[i].yi = yCount * y;
-				tArgs[i].yf = yCount * (y+1) - 1;
-				tArgs[i].zi = zCount * z;
-				tArgs[i].zf = zCount * (z+1) - 1;
+				tArgs[i].xi += xCount * x;
+				tArgs[i].xf += xCount * (x+1) - 1;
+				tArgs[i].yi += yCount * y;
+				tArgs[i].yf += yCount * (y+1) - 1;
+				tArgs[i].zi += zCount * z;
+				tArgs[i].zf += zCount * (z+1) - 1;
+
+				if (xRem > 0)
+				{
+					tArgs[i].xf++;
+					for(int k = i+1; k < n; k++)
+					{
+						tArgs[k].xi++;
+						tArgs[k].xf++;
+					}
+					xRem--;
+				}
+				if (yRem > 0)
+				{
+					tArgs[i].yf++;
+					for(int k = i+1; k < n; k++)
+					{
+						tArgs[k].yi++;
+						tArgs[k].yf++;
+					}
+					yRem--;
+				}
+				if (zRem > 0)
+				{
+					tArgs[i].zf++;
+					for(int k = i+1; k < n; k++)
+					{
+						tArgs[k].zi++;
+						tArgs[k].zf++;
+					}
+					zRem--;
+				}
 
 				printf("Thread %d xi %d xf %d yi %d yf %d zi %d zf %d \n", i, tArgs[i].xi, tArgs[i].xf, tArgs[i].yi, tArgs[i].yf, tArgs[i].zi, tArgs[i].zf);
 
