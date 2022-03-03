@@ -18,6 +18,12 @@ int main(int argc, char *argv[])
 	Header h = { 0 };
 	fread(&h, sizeof(Header), 1, inFile);
 
+	if (h.z != 1)
+	{
+		fprintf(stderr, "Invalid room header! Z must be 1.");
+		exit(EXIT_FAILURE);
+	}
+
 	int iterationCnt = (int)ceil(atof(argv[2]) * h.frequency);
 	if (!iterationCnt)
 	{
@@ -25,7 +31,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	
-	printf("%d, %d @ %ld\n", h.x, h.y, h.frequency);
+	printf("%d, %d @ %d\n", h.x, h.y, h.frequency);
 
 	Node** nodes = allocNodes(&h);
 	readNodes(nodes, &h, inFile);
@@ -48,6 +54,8 @@ int main(int argc, char *argv[])
 	}
 
 	float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
+	// for DIRAC ignore source files
+	float** sourceData = NULL;
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
@@ -61,6 +69,8 @@ int main(int argc, char *argv[])
 	float** receiversData = allocReceiversMemory(receiverCnt, iterationCnt);
 
 	// DWM algorithm loop
+	struct timespec start, now;
+	clock_gettime(CLOCK_MONOTONIC, &start);
 	for (int i = 0; i < iterationCnt; i++)
 	{
 		injectSamples(sources, sourceData, sourceCnt, i);
@@ -71,6 +81,10 @@ int main(int argc, char *argv[])
 
 		delayPass(&h, nodes);
 	}
+	clock_gettime(CLOCK_MONOTONIC, &now);
+    printf("DWM-2D execution time: %lf\n",
+            (now.tv_sec - start.tv_sec) +
+            1e-9 * (now.tv_nsec - start.tv_nsec)); 
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
 
@@ -102,6 +116,15 @@ void injectSamples(Node** n, float** sourceData, const int sourceCount, const in
 		n[i]->pFrontI += f;
 		n[i]->pBackI += f;
 	}
+
+	// inject DIRAC
+	// if(iteration == 0)
+	// {
+	// 	n[0]->pRightI += 0.5f;
+	// 	n[0]->pLeftI += 0.5f;
+	// 	n[0]->pFrontI += 0.5f;
+	// 	n[0]->pBackI += 0.5f;
+	// }
 }
 
 void scatterPass(const Header* h, Node** ns) 
