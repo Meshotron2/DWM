@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
+	//float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
 	// for DIRAC ignore source files
 	float** sourceData = NULL;
 
@@ -125,6 +125,14 @@ void injectSamples(Node** n, float** sourceData, const int sourceCount, const in
 	// 	n[0]->pFrontI += 0.5f;
 	// 	n[0]->pBackI += 0.5f;
 	// }
+
+	// inject sinusoidal frequency
+	// const double sinint = 44100.0 / 345.0; // the number of iterations for each sinusoidal period
+	// float f = (float)cos( (double)iteration / sinint * 2 * M_PI) / 2;
+	// n[0]->pRightI += f;
+	// n[0]->pLeftI += f;
+	// n[0]->pFrontI += f;
+	// n[0]->pBackI += f;
 }
 
 void scatterPass(const Header* h, Node** ns) 
