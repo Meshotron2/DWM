@@ -53,9 +53,9 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	//float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
+	float** sourceData = readSourceFiles(&argv[3], sourceCnt, iterationCnt);
 	// for DIRAC ignore source files
-	float** sourceData = NULL;
+	// float** sourceData = NULL;
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
