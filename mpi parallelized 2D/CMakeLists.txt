@@ -1,6 +1,7 @@
 # CMakeList.txt : CMake project for DWM, include source and define
 # project specific logic here.
-#
+# https://stackoverflow.com/questions/41361631/optimize-in-cmake-by-default
+
 cmake_minimum_required (VERSION 3.8)
 
 if(NOT CMAKE_BUILD_TYPE)
