@@ -11,7 +11,7 @@ typedef struct FaceBuffer
     Faces face;
     int neighbour;
     Faces neighbourFace;
-    uint32_t size;
+    int size;
     float* inData;
     float* outData;
 } FaceBuffer;

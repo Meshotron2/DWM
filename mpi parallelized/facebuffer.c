@@ -3,7 +3,7 @@
 // https://stackoverflow.com/a/5901671
 void setupFaceBuffer(FaceBuffer* f, Header* h)
 {
-    uint32_t size, x, y;
+    int size, x, y;
 
     switch (f->face)
     {
@@ -33,114 +33,96 @@ void setupFaceBuffer(FaceBuffer* f, Header* h)
     }
 
     float *inData = (float*)malloc(x * y * sizeof(float));
-    float **inArray = (float**)malloc(x * sizeof(float*));
-    for (uint32_t i = 0; i < x; i++)
-    {
-        inArray[i] = &(inData[y*i]);
-    }
-
     float *outData = (float*)malloc(x * y * sizeof(float));
-    float **outArray = (float**)malloc(x * sizeof(float*));
-    for (uint32_t i = 0; i < x; i++)
-    {
-        outArray[i] = &(outData[y*i]);
-    }
 
     f->x = x;
     f->y = y;
     f->size = size;
     f->inData = inData;
-    f->in = inArray;
     f->outData = outData;
-    f->out = outArray;
 }
 
 void freeFaceBuffer(FaceBuffer* buf)
 {
     free(buf->outData);
     free(buf->inData);
-    free(buf->out);
-    free(buf->in);
 }
 
 void fillFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf)
 {
-    uint32_t i = 0;
+    int i = 0;
 
     switch (buf->face)
     {
     case Top:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        int z = h->z - 1;
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int y = 0; y < h->y ; y++)
             {
-                for (uint32_t z = h->z-1; z <= h->z-1 ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pUpO;
-                }
+                buf->outData[i++] = nodes[x][y][z].pUpO;
             }
         }
         break;
+    }
     case Bottom:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int y = 0; y < h->y ; y++)
             {
-                for (uint32_t z = 0; z <= 0 ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pDownO;
-                }
+                buf->outData[i++] = nodes[x][y][0].pDownO;
             }
         }
         break;
+    }
     case Left:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y <= 0 ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pLeftO;
-                }
+                buf->outData[i++] = nodes[x][0][z].pLeftO;
             }
         }
         break;
+    }
     case Right:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        int y = h->y - 1;
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = h->y-1; y <= h->y-1 ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pRightO;
-                }
+                buf->outData[i++] = nodes[x][y][z].pRightO;
             }
         }
         break;
+    }
     case Front:
-        for (uint32_t x = (h->x-1); x <= (h->x-1) ; x++)
+    {
+        int x = h->x - 1;
+        for (int y = 0; y < h->y ; y++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pFrontO;
-                }
+                buf->outData[i++] = nodes[x][y][z].pFrontO;
             }
         }
         break;
+    }
     case Back:
-        for (uint32_t x = 0; x <= 0 ; x++)
+    {
+        for (int y = 0; y < h->y ; y++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    buf->outData[i++] = nodes[x][y][z].pBackO;
-                }
+                buf->outData[i++] = nodes[0][y][z].pBackO;
             }
         }
         break; 
+    }
     default:
         return;
     }
@@ -148,82 +130,79 @@ void fillFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf)
 
 void readFaceBuffer(Node*** nodes, Header* h, FaceBuffer* buf)
 {
-    uint32_t i = 0;
+    int i = 0;
 
     switch (buf->face)
     {
     case Top:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        int z = h->z - 1;
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int y = 0; y < h->y ; y++)
             {
-                for (uint32_t z = h->z-1; z <= h->z-1 ; z++)
-                {
-                    nodes[x][y][z].pUpI = buf->inData[i++];
-                }
+                nodes[x][y][z].pUpI = buf->inData[i++];
             }
         }
         break;
+    }
     case Bottom:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y < h->y ; y++)
+            for (int y = 0; y < h->y ; y++)
             {
-                for (uint32_t z = 0; z <= 0 ; z++)
-                {
-                    nodes[x][y][z].pDownI = buf->inData[i++];
-                }
+                nodes[x][y][0].pDownI = buf->inData[i++];
             }
         }
         break;
+    }
     case Left:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = 0; y <= 0 ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    nodes[x][y][z].pLeftI = buf->inData[i++];
-                }
+                nodes[x][0][z].pLeftI = buf->inData[i++];
             }
         }
         break;
+    }
     case Right:
-        for (uint32_t x = 0; x < h->x ; x++)
+    {
+        int y = h->y - 1;
+        for (int x = 0; x < h->x ; x++)
         {
-            for (uint32_t y = h->y-1; y <= h->y-1 ; y++)
+            for (int z = 0; z < h->z ; z++)
             {
-                for (uint32_t z = 0; z < h->z ; z++)
-                {
-                    nodes[x][y][z].pRightI = buf->inData[i++];
-                }
+                nodes[x][y][z].pRightI = buf->inData[i++];
             }
         }
         break;
+    }
     case Front:
-        for (uint32_t x = (h->x - 1); x <= (h->x - 1); x++)
+    {
+        int x = h->x - 1;
+        for (int y = 0; y < h->y; y++)
         {
-            for (uint32_t y = 0; y < h->y; y++)
+            for (int z = 0; z < h->z; z++)
             {
-                for (uint32_t z = 0; z < h->z; z++)
-                {
-                    nodes[x][y][z].pFrontI = buf->inData[i++];
-                }
+                nodes[x][y][z].pFrontI = buf->inData[i++];
             }
         }
         break;
+    }
     case Back:
-        for (uint32_t x = 0; x <= 0; x++)
+    {
+        for (int y = 0; y < h->y; y++)
         {
-            for (uint32_t y = 0; y < h->y; y++)
+            for (int z = 0; z < h->z; z++)
             {
-                for (uint32_t z = 0; z < h->z; z++)
-                {
-                    nodes[x][y][z].pBackI = buf->inData[i++];
-                }
+                nodes[0][y][z].pBackI = buf->inData[i++];
             }
         }
         break; 
+    }
     default:
         return;
     }
