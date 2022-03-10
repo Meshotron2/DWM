@@ -53,6 +53,7 @@ Host host
 If you set everything up correctly you should now be able run the following commands successfully.
 
 ```bash
+ssh-add path/to/rsa-key # you can add this to your .bashrc so you don't have to keep running this on every terminal
 ssh hostname # you shouldn't be asked for a username or a password
 exit
 
