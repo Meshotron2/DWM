@@ -97,26 +97,26 @@ int main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
-void readSamples(Node** n, float** buf, const int receiverCount, const int iteration) 
+void readSamples(Node** sources, float** receiverData, const int receiverCount, const int iteration) 
 {
 	for (int i = 0; i < receiverCount; i++)
 	{
-		buf[i][iteration] = n[i]->p;
+		receiverData[i][iteration] = sources[i]->p;
 	}
 }
 
-void injectSamples(Node** n, float** sourceData, const int sourceCount, const int iteration)
+void injectSamples(Node** receivers, float** sourceData, const int sourceCount, const int iteration)
 {
 	float f;
 	for (int i = 0; i < sourceCount; i++)
 	{
 		f = sourceData[i][iteration] / 2;
-		n[i]->pUpI += f;
-		n[i]->pDownI += f;
-		n[i]->pRightI += f;
-		n[i]->pLeftI += f;
-		n[i]->pFrontI += f;
-		n[i]->pBackI += f;
+		receivers[i]->pUpI += f;
+		receivers[i]->pDownI += f;
+		receivers[i]->pRightI += f;
+		receivers[i]->pLeftI += f;
+		receivers[i]->pFrontI += f;
+		receivers[i]->pBackI += f;
 	}
 }
 
@@ -215,7 +215,7 @@ void scatterPass(const Header *h, Node ***ns)
 	}
 }
 
-void writeExcitation(float** buf, const int receiverCount, const int iterationCnt)
+void writeExcitation(float** receiverData, const int receiverCount, const int iterationCnt)
 {
 	FILE* file;
 
@@ -243,7 +243,7 @@ void writeExcitation(float** buf, const int receiverCount, const int iterationCn
 			perror("Error");
 			exit(EXIT_FAILURE);
 		}
-		fwrite(buf[i], sizeof(float), iterationCnt, file);
+		fwrite(receiverData[i], sizeof(float), iterationCnt, file);
 		fclose(file);
 		free(filename);
 	}
@@ -297,13 +297,13 @@ float** readSourceFiles(char** argv, const int sourceFileCnt, const int iteratio
 	return sourceData;
 }
 
-void freeSourceData(float*** buf, int sourceCnt)
+void freeSourceData(float*** sourceData, int sourceCnt)
 {
-	if (*buf == NULL) return;
+	if (*sourceData == NULL) return;
 	for (int i = 0; i < sourceCnt; i++)
 	{
-		free((*buf)[i]);
+		free((*sourceData)[i]);
 	}
-	free(*buf);
-	*buf = NULL;
+	free(*sourceData);
+	*sourceData = NULL;
 }

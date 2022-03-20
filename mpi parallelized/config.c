@@ -3,6 +3,21 @@
 /*
 In the future this will probably not work like this. Each node will calculate it's neighbours automatically.
 But for now it's enough to properly validate the mpi implementation.
+The config format:
+The first line contains the number of units we need to communicate with.
+The following lines specifies the face and the neighbour rank for each unit we communicate with according to the following enum. 
+{
+    Top = 0, 
+    Bottom = 1, 
+    Left = 2, 
+    Right = 3, 
+    Front = 4, 
+    Back = 6
+}
+Then the room file name.
+Then the number of source files.
+Then the source file names.
+
 Example config:
 2
 3 1
