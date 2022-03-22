@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <mpi.h>
 #include "facebuffer.h"
 
 /** @file */
@@ -19,6 +20,8 @@
  *  An array of Config::sourceCnt strings containing the names off source files.
  *  @var Config::roomFileName
  *  The file name for the room file.
+ *  @var Config::requests
+ *  An array of MPI_Requests.
  */
 typedef struct Config
 {
@@ -27,6 +30,8 @@ typedef struct Config
     int sourceCnt;
     char** sourceFileNames;
     char* roomFileName;
+
+    MPI_Request requests[6];
 } Config;
 
 /** 

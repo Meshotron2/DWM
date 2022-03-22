@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <mpi.h>
+#include <time.h>
 
 #include "node.h"
 #include "facebuffer.h"
