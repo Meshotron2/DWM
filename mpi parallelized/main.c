@@ -2,7 +2,10 @@
 
 int main(int argc, char *argv[])
 {
-	MPI_Init(&argc, &argv);
+	// MPI_Init(&argc, &argv);
+	int world_rank, world_size;
+	CommunicatorInit(&world_rank, &world_size, &argc, &argv);
+	printf("Process %d of %d. Argc: %d\n", world_rank, world_size, argc);
 
 	if (argc != 2)
 	{
@@ -10,9 +13,9 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	int world_rank, world_size;
-	MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+	// int world_rank, world_size;
+	// MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    // MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
 	Config cfg = readConfigFile(world_rank);
 
@@ -27,6 +30,8 @@ int main(int argc, char *argv[])
 	{
 		setupFaceBuffer(&(cfg.faces[i]), &h);
 	}
+
+	CommunicatorSetData(cfg.faces, cfg.faceCount);
  
 	int iterationCnt = (int)ceil(atof(argv[1]) * h.frequency);
 
@@ -47,10 +52,19 @@ int main(int argc, char *argv[])
 	printf("Process %d beginning DWM loop. Has %d faces %d sources and %d receivers\n", world_rank, cfg.faceCount, sourceCnt, receiverCnt);
 
 	// DWM algorithm loop
+	struct timespec start, now;
+	clock_gettime(CLOCK_MONOTONIC, &start);
+
+	float totalISendTime = 0;
+	float totalRecvTime = 0;
+	float totaldelayPassTime = 0;
+
+	struct timespec iStart, iNow;
+
 	for (int i = 0; i < iterationCnt; i++)
 	{
 		// wait until all processes are here
-		MPI_Barrier(MPI_COMM_WORLD);
+		// MPI_Barrier(MPI_COMM_WORLD);
 		
 		injectSamples(sources, sourceData, sourceCnt, i);
 		
@@ -58,30 +72,39 @@ int main(int argc, char *argv[])
 
 		readSamples(receivers, receiversData, receiverCnt, i);
 
-		//process faces
-		MPI_Request req;
+		clock_gettime(CLOCK_MONOTONIC, &iStart);
 		for (int f = 0; f < cfg.faceCount; f++)
 		{
 			FaceBuffer* cFace = &(cfg.faces[f]);
 			fillFaceBuffer(nodes, &h, cFace);
-			// the tag allows us to differenciate between messages
-			// the facebuffer struct contains the opposing face so we will use that as the tag
-			// async send
-			MPI_Isend(cFace->outData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->neighbourFace, MPI_COMM_WORLD, &req);
 		}
-		
-		// remember to look into optimizing this
-		// it won't be pretty but definitely faster
+		Send();
+		clock_gettime(CLOCK_MONOTONIC, &iNow);
+		totalISendTime += (iNow.tv_sec - iStart.tv_sec) + 1e-9 * (iNow.tv_nsec - iStart.tv_nsec);
+
+		clock_gettime(CLOCK_MONOTONIC, &iStart);
 		delayPass(&h, nodes);
+		clock_gettime(CLOCK_MONOTONIC, &iNow);
+		totaldelayPassTime += (iNow.tv_sec - iStart.tv_sec) + 1e-9 * (iNow.tv_nsec - iStart.tv_nsec);
+
+		clock_gettime(CLOCK_MONOTONIC, &iStart);
+		Wait();
 		for (int f = 0; f < cfg.faceCount; f++)
 		{
 			FaceBuffer* cFace = &(cfg.faces[f]);
-			// blocking receive
-			MPI_Recv(cFace->inData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-			// and process it
 			readFaceBuffer(nodes, &h, cFace);
 		}
+		clock_gettime(CLOCK_MONOTONIC, &iNow);
+		totalRecvTime += (iNow.tv_sec - iStart.tv_sec) + 1e-9 * (iNow.tv_nsec - iStart.tv_nsec);
 	}
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	printf("%d: Execution Time: %lf\n", world_rank,
+            (now.tv_sec - start.tv_sec) +
+            1e-9 * (now.tv_nsec - start.tv_nsec)); 
+
+	printf("Average iSend time: %lf\n", totalISendTime / iterationCnt);
+	printf("Average delay pass time: %lf\n", totaldelayPassTime / iterationCnt);
+	printf("Average recv time: %lf\n", totalRecvTime / iterationCnt);
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
 
@@ -92,7 +115,7 @@ int main(int argc, char *argv[])
 	freeSourceData(&sourceData, sourceCnt);
 	freeConfig(&cfg);
 
-	MPI_Finalize();
+	CommunicatorDestroy();
 
 	return EXIT_SUCCESS;
 }

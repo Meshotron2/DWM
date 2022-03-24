@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <mpi.h>
+#include <time.h>
 
 #include "node.h"
 #include "facebuffer.h"
 #include "header.h"
 #include "config.h"
+#include "communicator.h"
 
 /** @file */
 
