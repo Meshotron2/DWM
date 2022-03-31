@@ -15,7 +15,7 @@ set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 # Add source to this project's executable.
-add_executable(mpi "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h" "config.c" "config.h")
+add_executable(mpi "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h" "config.c" "config.h" "monitor.c" "monitor.h")
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   ADD_LIBRARY(math STATIC IMPORTED)

@@ -10,6 +10,7 @@
 #include"node.h"
 #include"config.h"
 #include"facebuffer.h"
+#include"monitor.h"
 
 void injectSamples(Node** n, float** sourceData, const int sourceCount, const int iteration);
 

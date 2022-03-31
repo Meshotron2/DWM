@@ -45,18 +45,35 @@ int main(int argc, char *argv[])
 	float** receiversData = allocReceiversMemory(receiverCnt, iterationCnt);
 
 	printf("Process %d beginning DWM loop. Has %d faces %d sources and %d receivers\n", world_rank, cfg.faceCount, sourceCnt, receiverCnt);
+	MonitorData md = {0};
+	md.pid = world_rank;
+	float totalSendTime = 0.0f, totalRecvTime = 0.0f, totalDelayTime = 0.0f, totalScatterTime = 0.0f;
+	struct timespec start, now;
+	struct timespec tstart, tnow;
+	clock_gettime(CLOCK_MONOTONIC, &tstart);
 
 	// DWM algorithm loop
-	struct timespec start, now;
-	clock_gettime(CLOCK_MONOTONIC, &start);
 	for (int i = 0; i < iterationCnt; i++)
 	{
+		if(i % 250 == 0)
+		{
+			md.percentage = (i / (float)iterationCnt) * 100.0f;
+			md.sendTime = totalSendTime / i;
+			md.receptionTime = totalRecvTime / i;
+			md.scatterPassTime = totalScatterTime / i;
+			md.delayPassTime = totalDelayTime / i;
+			monitorSend(&md);
+		}
+		
 		// wait until all processes are here
 		MPI_Barrier(MPI_COMM_WORLD);
 		
 		injectSamples(sources, sourceData, sourceCnt, i);
 		
+		clock_gettime(CLOCK_MONOTONIC, &start);
 		scatterPass(&h, nodes);
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		totalScatterTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 
 		readSamples(receivers, receiversData, receiverCnt, i);
 
@@ -67,20 +84,29 @@ int main(int argc, char *argv[])
 			fillFaceBuffer(nodes, &h, cFace);
 			MPI_Isend(cFace->outData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->neighbourFace, MPI_COMM_WORLD, &req);
 		}
-
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		totalSendTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
+		
+		clock_gettime(CLOCK_MONOTONIC, &start);
 		delayPass(&h, nodes);
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		totalDelayTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 
+		clock_gettime(CLOCK_MONOTONIC, &start);
 		for (int f = 0; f < cfg.faceCount; f++)
 		{
 			FaceBuffer* cFace = &(cfg.faces[f]);
 			MPI_Recv(cFace->inData, cFace->size, MPI_FLOAT, cFace->neighbour, cFace->face, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 			readFaceBuffer(nodes, &h, cFace);
 		}
+		clock_gettime(CLOCK_MONOTONIC, &now);
+		totalRecvTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 	}
-	clock_gettime(CLOCK_MONOTONIC, &now);
-    printf("DWM-2D execution time: %lf\n",
-            (now.tv_sec - start.tv_sec) +
-            1e-9 * (now.tv_nsec - start.tv_nsec)); 
+
+	clock_gettime(CLOCK_MONOTONIC, &tnow);
+	printf("DWM-2D execution time: %lf\n",
+            (tnow.tv_sec - tstart.tv_sec) +
+            1e-9 * (tnow.tv_nsec - tstart.tv_nsec)); 
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
 
