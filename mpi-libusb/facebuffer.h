@@ -23,16 +23,18 @@ typedef enum Faces
  *  @brief Contains data associated with a face.
  *  @var FaceBuffer::face
  *  A Faces enum representing the face.
- *  @var FaceBuffer::neighbour
- *  The neighbours rank this face communicates with.
- *  @var FaceBuffer::neighbourFace
- *  A Faces enum representing the neighbours face this face communicates with.
- *  @var FaceBuffer::x
- *  The size in floats of the x axis of this face.
- *  @var FaceBuffer::y
- *  The size in floats of the y axis of this face.
  *  @var FaceBuffer::size
- *  The total size in floats of the face. Calculated by FaceBuffer::x * FaceBuffer::y.
+ *  The total size in floats of the face.
+ *  @var FaceBuffer::device
+ *  The libusb_device_handle associated with this FaceBuffer
+ *  @var FaceBuffer::devPort
+ *  The port where FaceBuffer::device is connected
+ *  @var FaceBuffer::devInterface
+ *  The interface where FaceBuffer::device is connected
+ *  @var FaceBuffer::in_transfer
+ *  The libusb_transfer associated with input to this FaceBuffer
+ *  @var FaceBuffer::out_transfer
+ *  The libusb_transfer associated with output from this FaceBuffer
  *  @var FaceBuffer::inData
  *  The input buffer for this face where the neighbour data will be read to.
  *  @var FaceBuffer::outData
