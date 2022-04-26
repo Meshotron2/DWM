@@ -15,10 +15,10 @@ set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
 # Add source to this project's executable.
-add_executable(mpi "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h" "config.c" "config.h" "pl25a1.h" "usbcomm.c" "usbcomm.h")
-target_link_libraries(mpi usb-1.0)
+add_executable(mpi-libusb "main.c" "main.h" "facebuffer.c" "facebuffer.h" "header.h" "node.c" "node.h" "config.c" "config.h" "pl25a1.h" "usbcomm.c" "usbcomm.h")
+target_link_libraries(mpi-libusb usb-1.0)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   ADD_LIBRARY(math STATIC IMPORTED)
-  target_link_libraries(mpi m)
+  target_link_libraries(mpi-libusb m)
 endif()
