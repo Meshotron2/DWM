@@ -1,0 +1,222 @@
+\hypertarget{node_8h}{}\doxysection{node.\+h File Reference}
+\label{node_8h}\index{node.h@{node.h}}
+{\ttfamily \#include \char`\"{}header.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structNode}{Node}}
+\begin{DoxyCompactList}\small\item\em Contains data associated with a particular \mbox{\hyperlink{structNode}{Node}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{node_8h_ae44b6636602299d09b2d098bd2b6712a}\label{node_8h_ae44b6636602299d09b2d098bd2b6712a}} 
+\#define \mbox{\hyperlink{node_8h_ae44b6636602299d09b2d098bd2b6712a}{A\+I\+R\+\_\+\+N\+O\+DE}}~\textquotesingle{} \textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Air \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a277f50c3c7a55d387cf54fdbc4292657}\label{node_8h_a277f50c3c7a55d387cf54fdbc4292657}} 
+\#define \mbox{\hyperlink{node_8h_a277f50c3c7a55d387cf54fdbc4292657}{S\+R\+C\+\_\+\+N\+O\+DE}}~\textquotesingle{}S\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Source \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a4f140013f55481b0a9e7f0331b77b7f4}\label{node_8h_a4f140013f55481b0a9e7f0331b77b7f4}} 
+\#define \mbox{\hyperlink{node_8h_a4f140013f55481b0a9e7f0331b77b7f4}{R\+C\+V\+R\+\_\+\+N\+O\+DE}}~\textquotesingle{}R\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Receiver \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a08e7c0e21f34dec3100d357a79583410}\label{node_8h_a08e7c0e21f34dec3100d357a79583410}} 
+\#define \mbox{\hyperlink{node_8h_a08e7c0e21f34dec3100d357a79583410}{R\+H\+O\+\_\+0}}~\textquotesingle{}A\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0 ρ \mbox{\hyperlink{structNode}{Node}} type (fully absortvent). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a2708390a395e66482d045850bdfdc1e1}\label{node_8h_a2708390a395e66482d045850bdfdc1e1}} 
+\#define \mbox{\hyperlink{node_8h_a2708390a395e66482d045850bdfdc1e1}{R\+H\+O\+\_\+01}}~\textquotesingle{}B\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+1 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a701885a29e79a42a661beb00b6d8c5ee}\label{node_8h_a701885a29e79a42a661beb00b6d8c5ee}} 
+\#define \mbox{\hyperlink{node_8h_a701885a29e79a42a661beb00b6d8c5ee}{R\+H\+O\+\_\+02}}~\textquotesingle{}C\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+2 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a5e7b0f61f28fa8a63fd19bd673d7f83e}\label{node_8h_a5e7b0f61f28fa8a63fd19bd673d7f83e}} 
+\#define \mbox{\hyperlink{node_8h_a5e7b0f61f28fa8a63fd19bd673d7f83e}{R\+H\+O\+\_\+03}}~\textquotesingle{}D\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+3 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ad8b0b84f85244dc97972837a19393d9c}\label{node_8h_ad8b0b84f85244dc97972837a19393d9c}} 
+\#define \mbox{\hyperlink{node_8h_ad8b0b84f85244dc97972837a19393d9c}{R\+H\+O\+\_\+04}}~\textquotesingle{}E\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+4 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ac015419ecb74134b9ef215f648fd481e}\label{node_8h_ac015419ecb74134b9ef215f648fd481e}} 
+\#define \mbox{\hyperlink{node_8h_ac015419ecb74134b9ef215f648fd481e}{R\+H\+O\+\_\+05}}~\textquotesingle{}F\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+5 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ac5555aea651a6199446f7b84eb67da76}\label{node_8h_ac5555aea651a6199446f7b84eb67da76}} 
+\#define \mbox{\hyperlink{node_8h_ac5555aea651a6199446f7b84eb67da76}{R\+H\+O\+\_\+06}}~\textquotesingle{}G\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+6 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a91286b7ac68bad67620e81958d246c98}\label{node_8h_a91286b7ac68bad67620e81958d246c98}} 
+\#define \mbox{\hyperlink{node_8h_a91286b7ac68bad67620e81958d246c98}{R\+H\+O\+\_\+07}}~\textquotesingle{}H\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+7 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ae9b41d73adf75818d08255f48ea6ed28}\label{node_8h_ae9b41d73adf75818d08255f48ea6ed28}} 
+\#define \mbox{\hyperlink{node_8h_ae9b41d73adf75818d08255f48ea6ed28}{R\+H\+O\+\_\+08}}~\textquotesingle{}I\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+8 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a9b76d599bc8b80f06ef92922a1d21d60}\label{node_8h_a9b76d599bc8b80f06ef92922a1d21d60}} 
+\#define \mbox{\hyperlink{node_8h_a9b76d599bc8b80f06ef92922a1d21d60}{R\+H\+O\+\_\+09}}~\textquotesingle{}J\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+9 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a2e6f5e9fc6a0b0663549ba0d16893b91}\label{node_8h_a2e6f5e9fc6a0b0663549ba0d16893b91}} 
+\#define \mbox{\hyperlink{node_8h_a2e6f5e9fc6a0b0663549ba0d16893b91}{R\+H\+O\+\_\+091}}~\textquotesingle{}1\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+91 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ae4f9b320156c000f69d3c9bcbd45a935}\label{node_8h_ae4f9b320156c000f69d3c9bcbd45a935}} 
+\#define \mbox{\hyperlink{node_8h_ae4f9b320156c000f69d3c9bcbd45a935}{R\+H\+O\+\_\+092}}~\textquotesingle{}2\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+92 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a3350c5bc28d1e323c19117d586431da4}\label{node_8h_a3350c5bc28d1e323c19117d586431da4}} 
+\#define \mbox{\hyperlink{node_8h_a3350c5bc28d1e323c19117d586431da4}{R\+H\+O\+\_\+093}}~\textquotesingle{}3\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+93 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_aec63358138562865aaa168ec3675edcc}\label{node_8h_aec63358138562865aaa168ec3675edcc}} 
+\#define \mbox{\hyperlink{node_8h_aec63358138562865aaa168ec3675edcc}{R\+H\+O\+\_\+094}}~\textquotesingle{}4\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+94 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_abcead820aa60904416be563efb7b4234}\label{node_8h_abcead820aa60904416be563efb7b4234}} 
+\#define \mbox{\hyperlink{node_8h_abcead820aa60904416be563efb7b4234}{R\+H\+O\+\_\+095}}~\textquotesingle{}5\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+95 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_aff2c6e36d4f782261d54f92a88cde461}\label{node_8h_aff2c6e36d4f782261d54f92a88cde461}} 
+\#define \mbox{\hyperlink{node_8h_aff2c6e36d4f782261d54f92a88cde461}{R\+H\+O\+\_\+096}}~\textquotesingle{}6\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+96 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_a259735d4e23521b8942aab146a266495}\label{node_8h_a259735d4e23521b8942aab146a266495}} 
+\#define \mbox{\hyperlink{node_8h_a259735d4e23521b8942aab146a266495}{R\+H\+O\+\_\+097}}~\textquotesingle{}7\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+97 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ae73a64bf442e3af8fbbe976963a6c52c}\label{node_8h_ae73a64bf442e3af8fbbe976963a6c52c}} 
+\#define \mbox{\hyperlink{node_8h_ae73a64bf442e3af8fbbe976963a6c52c}{R\+H\+O\+\_\+098}}~\textquotesingle{}8\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+98 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_aae07a77d3d5cd7dc8df3999639b31203}\label{node_8h_aae07a77d3d5cd7dc8df3999639b31203}} 
+\#define \mbox{\hyperlink{node_8h_aae07a77d3d5cd7dc8df3999639b31203}{R\+H\+O\+\_\+099}}~\textquotesingle{}9\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 0.\+99 ρ \mbox{\hyperlink{structNode}{Node}} type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{node_8h_ac6ecbabe3028f4b0511a1855867a24a5}\label{node_8h_ac6ecbabe3028f4b0511a1855867a24a5}} 
+\#define \mbox{\hyperlink{node_8h_ac6ecbabe3028f4b0511a1855867a24a5}{R\+H\+O\+\_\+1}}~\textquotesingle{}Z\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em 1 ρ \mbox{\hyperlink{structNode}{Node}} type (fully reflective). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{node_8h_a3b09f37e675bcd48a01bf22155996872}\label{node_8h_a3b09f37e675bcd48a01bf22155996872}} 
+typedef struct \mbox{\hyperlink{structNode}{Node}} {\bfseries Node}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$ \mbox{\hyperlink{node_8h_af3a41f5e01325e5b22373b34d7f895d4}{alloc\+Nodes}} (const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$header)
+\item 
+void \mbox{\hyperlink{node_8h_a916e24db663346c23981a304f3fff571}{free\+Nodes}} (const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$header, \mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$nodes)
+\item 
+void \mbox{\hyperlink{node_8h_a7ea72e3093d32be6aacd23c155e3ff9f}{read\+Nodes}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$nodes, \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h, F\+I\+LE $\ast$in\+File)
+\item 
+float \mbox{\hyperlink{node_8h_a506756f00212c6a0875aac4df0414a5e}{get\+Node\+Reflection\+Coefficient}} (const \mbox{\hyperlink{structNode}{Node}} $\ast$n)
+\item 
+int \mbox{\hyperlink{node_8h_a5f725f42e8cdab736dee4bbc31346137}{get\+All\+Nodes\+Of\+Type}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$buf, const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$header, \mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$nodes, const char type)
+\item 
+float $\ast$$\ast$ \mbox{\hyperlink{node_8h_a4b31a43f034f18a122a78d6e6354cd19}{alloc\+Receivers\+Memory}} (const int receiver\+Count, const int iteration\+Count)
+\item 
+void \mbox{\hyperlink{node_8h_a0c74336d60bca1584d8e2309fc65eac3}{free\+All\+Nodes\+Of\+Type}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$buf)
+\item 
+void \mbox{\hyperlink{node_8h_ad6adbf2c750f3fbeabb1c17d04c19fd9}{free\+Receivers\+Memory}} (float $\ast$$\ast$$\ast$buf, const int receiver\+Count)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{node_8h_af3a41f5e01325e5b22373b34d7f895d4}\label{node_8h_af3a41f5e01325e5b22373b34d7f895d4}} 
+\index{node.h@{node.h}!allocNodes@{allocNodes}}
+\index{allocNodes@{allocNodes}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{allocNodes()}{allocNodes()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structNode}{Node}}$\ast$$\ast$$\ast$ alloc\+Nodes (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{header }\end{DoxyParamCaption})}
+
+Allocates a 3D \mbox{\hyperlink{structNode}{Node}} (not Node$\ast$) array with dimensions specified in the Header This function allocates memory that should be released by calling \mbox{\hyperlink{node_8h_a916e24db663346c23981a304f3fff571}{free\+Nodes(const Header$\ast$, Node$\ast$$\ast$$\ast$)}} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em header} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ out}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a4b31a43f034f18a122a78d6e6354cd19}\label{node_8h_a4b31a43f034f18a122a78d6e6354cd19}} 
+\index{node.h@{node.h}!allocReceiversMemory@{allocReceiversMemory}}
+\index{allocReceiversMemory@{allocReceiversMemory}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{allocReceiversMemory()}{allocReceiversMemory()}}
+{\footnotesize\ttfamily float$\ast$$\ast$ alloc\+Receivers\+Memory (\begin{DoxyParamCaption}\item[{const int}]{receiver\+Count,  }\item[{const int}]{iteration\+Count }\end{DoxyParamCaption})}
+
+Allocates memory for all receivers file in a 2D float array. This function allocates memory that must be released by calling \mbox{\hyperlink{node_8h_ad6adbf2c750f3fbeabb1c17d04c19fd9}{free\+Receivers\+Memory(float$\ast$$\ast$$\ast$, const int)}} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em receiver\+Count} & The number of receivers to allocate memory for. \\
+\hline
+\mbox{\texttt{ in}}  & {\em iteration\+Count} & The number of iterations the model will process. \\
+\hline
+\mbox{\texttt{ out}}  & {\em receivers\+Data} & A 2D float array representing \mbox{[}receiver\mbox{]}\mbox{[}iteration\mbox{]}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a0c74336d60bca1584d8e2309fc65eac3}\label{node_8h_a0c74336d60bca1584d8e2309fc65eac3}} 
+\index{node.h@{node.h}!freeAllNodesOfType@{freeAllNodesOfType}}
+\index{freeAllNodesOfType@{freeAllNodesOfType}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{freeAllNodesOfType()}{freeAllNodesOfType()}}
+{\footnotesize\ttfamily void free\+All\+Nodes\+Of\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{buf }\end{DoxyParamCaption})}
+
+Frees memory allocated by \mbox{\hyperlink{node_8h_a5f725f42e8cdab736dee4bbc31346137}{get\+All\+Nodes\+Of\+Type(\+Node$\ast$$\ast$$\ast$, const Header$\ast$, Node$\ast$$\ast$$\ast$, const char)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buf} & A pointer to the 2D array. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a916e24db663346c23981a304f3fff571}\label{node_8h_a916e24db663346c23981a304f3fff571}} 
+\index{node.h@{node.h}!freeNodes@{freeNodes}}
+\index{freeNodes@{freeNodes}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{freeNodes()}{freeNodes()}}
+{\footnotesize\ttfamily void free\+Nodes (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{header,  }\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{nodes }\end{DoxyParamCaption})}
+
+Frees a 3D \mbox{\hyperlink{structNode}{Node}} array allocated by \mbox{\hyperlink{node_8h_af3a41f5e01325e5b22373b34d7f895d4}{alloc\+Nodes(const Header$\ast$)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em header} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_ad6adbf2c750f3fbeabb1c17d04c19fd9}\label{node_8h_ad6adbf2c750f3fbeabb1c17d04c19fd9}} 
+\index{node.h@{node.h}!freeReceiversMemory@{freeReceiversMemory}}
+\index{freeReceiversMemory@{freeReceiversMemory}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{freeReceiversMemory()}{freeReceiversMemory()}}
+{\footnotesize\ttfamily void free\+Receivers\+Memory (\begin{DoxyParamCaption}\item[{float $\ast$$\ast$$\ast$}]{buf,  }\item[{const int}]{receiver\+Count }\end{DoxyParamCaption})}
+
+Frees memory allocated by \mbox{\hyperlink{node_8h_a4b31a43f034f18a122a78d6e6354cd19}{alloc\+Receivers\+Memory(const int, const int)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buf} & A pointer to the 2D array. \\
+\hline
+\mbox{\texttt{ in}}  & {\em receiver\+Count} & The number of receivers. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a5f725f42e8cdab736dee4bbc31346137}\label{node_8h_a5f725f42e8cdab736dee4bbc31346137}} 
+\index{node.h@{node.h}!getAllNodesOfType@{getAllNodesOfType}}
+\index{getAllNodesOfType@{getAllNodesOfType}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{getAllNodesOfType()}{getAllNodesOfType()}}
+{\footnotesize\ttfamily int get\+All\+Nodes\+Of\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{buf,  }\item[{const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{header,  }\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{nodes,  }\item[{const char}]{type }\end{DoxyParamCaption})}
+
+Looks for all nodes of a given type. Returns the number of nodes of type found. If return value is greater then 0 buf will point to a valid Node$\ast$$\ast$ array. This function allocates memory that must be released by calling \mbox{\hyperlink{node_8h_a0c74336d60bca1584d8e2309fc65eac3}{free\+All\+Nodes\+Of\+Type(\+Node$\ast$$\ast$$\ast$)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buf} & A tripe \mbox{\hyperlink{structNode}{Node}} pointer. \\
+\hline
+\mbox{\texttt{ in}}  & {\em header} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\mbox{\texttt{ in}}  & {\em type} & A char representing the type to look for. \\
+\hline
+\mbox{\texttt{ out}}  & {\em node\+Count} & The number of Nodes of type found. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a506756f00212c6a0875aac4df0414a5e}\label{node_8h_a506756f00212c6a0875aac4df0414a5e}} 
+\index{node.h@{node.h}!getNodeReflectionCoefficient@{getNodeReflectionCoefficient}}
+\index{getNodeReflectionCoefficient@{getNodeReflectionCoefficient}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{getNodeReflectionCoefficient()}{getNodeReflectionCoefficient()}}
+{\footnotesize\ttfamily float get\+Node\+Reflection\+Coefficient (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structNode}{Node}} $\ast$}]{n }\end{DoxyParamCaption})}
+
+Returns the reflection coefficient for a given node based on its type. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em n} & A pointer to a \mbox{\hyperlink{structNode}{Node}}. \\
+\hline
+\mbox{\texttt{ out}}  & {\em f} & The reflection coefficient. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{node_8h_a7ea72e3093d32be6aacd23c155e3ff9f}\label{node_8h_a7ea72e3093d32be6aacd23c155e3ff9f}} 
+\index{node.h@{node.h}!readNodes@{readNodes}}
+\index{readNodes@{readNodes}!node.h@{node.h}}
+\doxysubsubsection{\texorpdfstring{readNodes()}{readNodes()}}
+{\footnotesize\ttfamily void read\+Nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{nodes,  }\item[{\mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h,  }\item[{F\+I\+LE $\ast$}]{in\+File }\end{DoxyParamCaption})}
+
+Reads the nodes from a file into a 3D \mbox{\hyperlink{structNode}{Node}} array. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em in\+File} & A valid F\+I\+LE pointer to a .dwm file. \\
+\hline
+\end{DoxyParams}

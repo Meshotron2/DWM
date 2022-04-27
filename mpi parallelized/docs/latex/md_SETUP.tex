@@ -1,0 +1,74 @@
+First download the latest stable version from \href{https://www.open-mpi.org/software/}{\texttt{ here}}. Then run the following commands in a command-\/line\+:
+
+You can skip these 2 if you already have {\ttfamily make}, {\ttfamily gcc} and {\ttfamily g++} installed. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo apt update}
+\DoxyCodeLine{sudo apt install make gcc g++}
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{gunzip -\/c openmpi-\/4.1.2.tar.gz | tar xf -\/}
+\DoxyCodeLine{cd openmpi-\/4.1.2}
+\DoxyCodeLine{./configure -\/-\/prefix=/usr/local}
+\DoxyCodeLine{sudo make all install}
+\DoxyCodeLine{sudo ldconfig}
+\end{DoxyCode}
+\hypertarget{md_SETUP_autotoc_md3}{}\doxysection{Setting up Open\+M\+PI}\label{md_SETUP_autotoc_md3}
+In order to be able to use {\ttfamily mpirun} to remotely start jobs on the Raspberry Pis we first need to be able to {\ttfamily ssh} into them from a {\ttfamily remote computer} without having to manually provide a username and password.
+
+First we create an ssh key on the {\ttfamily remote computer}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ssh-\/keygen -\/t rsa -\/b 4096}
+\end{DoxyCode}
+
+
+{\bfseries{Note}}\+: All of the following steps also take place on the {\ttfamily remote computer}.
+
+Then we need to copy the {\ttfamily ssh} key we just created to every Raspberry Pi in the cluster. This can be done by running the following command for every Raspberry Pi.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ssh-\/copy-\/id -\/i path/to/rsa-\/key.pub username@remote-\/ip}
+\end{DoxyCode}
+
+
+Now we need to give each Raspberry Pi a hostname. To do this we need to an entry in {\ttfamily /etc/hosts} for every Raspberry Pi.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{remote-\/ip hostname}
+\end{DoxyCode}
+
+
+Finally we need to specify the default username {\ttfamily ssh} will use for each Raspberry Pi. This done by adding the following lines to the end of {\ttfamily $\sim$/.ssh/config} for every Raspberry Pi.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Host host}
+\DoxyCodeLine{    HostName hostname}
+\DoxyCodeLine{    User username  }
+\end{DoxyCode}
+
+
+{\bfseries{Note}}\+: This can be done in a simpler way but it may come with some unintended changes. More info \href{https://stackoverflow.com/questions/10197559/ssh-configuration-override-the-default-username}{\texttt{ here}}\hypertarget{md_SETUP_autotoc_md4}{}\doxysection{Testing}\label{md_SETUP_autotoc_md4}
+If you set everything up correctly you should now be able run the following commands successfully.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ssh-\/add path/to/rsa-\/key \# you can add this to your .bashrc so you don't have to keep running this on every terminal}
+\DoxyCodeLine{ssh hostname \# you shouldn't be asked for a username or a password}
+\DoxyCodeLine{exit}
+\DoxyCodeLine{}
+\DoxyCodeLine{mpirun -\/n 1 -\/host hostname echo "Hello World!" \# you should see Hello World!}
+\end{DoxyCode}
+\hypertarget{md_SETUP_autotoc_md5}{}\doxysection{Usefull Links}\label{md_SETUP_autotoc_md5}
+
+\begin{DoxyItemize}
+\item \href{https://docs.oracle.com/cd/E19708-01/821-1319-10/ExecutingPrograms.html}{\texttt{ https\+://docs.\+oracle.\+com/cd/\+E19708-\/01/821-\/1319-\/10/\+Executing\+Programs.\+html}}
+\item \href{https://www.open-mpi.org/doc/v4.0/man1/mpirun.1.php}{\texttt{ https\+://www.\+open-\/mpi.\+org/doc/v4.\+0/man1/mpirun.\+1.\+php}}
+\item \href{https://www.open-mpi.org/faq/?category=rsh}{\texttt{ https\+://www.\+open-\/mpi.\+org/faq/?category=rsh}} 
+\end{DoxyItemize}

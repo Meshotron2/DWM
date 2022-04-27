@@ -1,0 +1,64 @@
+\hypertarget{config_8h}{}\doxysection{config.\+h File Reference}
+\label{config_8h}\index{config.h@{config.h}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}facebuffer.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structConfig}{Config}}
+\begin{DoxyCompactList}\small\item\em Contains data associated with a particular configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{config_8h_a807870f26ce33c7133d3f460c0197dd9}\label{config_8h_a807870f26ce33c7133d3f460c0197dd9}} 
+typedef struct \mbox{\hyperlink{structConfig}{Config}} {\bfseries Config}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structConfig}{Config}} \mbox{\hyperlink{config_8h_a82637f5594f17e672dbbe0006067adf2}{read\+Config\+File}} (int rank)
+\item 
+void \mbox{\hyperlink{config_8h_a3ba57c6f59fb3f1d2714043adadb3bf1}{free\+Config}} (\mbox{\hyperlink{structConfig}{Config}} $\ast$cfg)
+\item 
+void \mbox{\hyperlink{config_8h_a880a53f188eae623b9c04cb9c5c6f538}{remove\+New\+Line}} (char $\ast$str)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{config_8h_a3ba57c6f59fb3f1d2714043adadb3bf1}\label{config_8h_a3ba57c6f59fb3f1d2714043adadb3bf1}} 
+\index{config.h@{config.h}!freeConfig@{freeConfig}}
+\index{freeConfig@{freeConfig}!config.h@{config.h}}
+\doxysubsubsection{\texorpdfstring{freeConfig()}{freeConfig()}}
+{\footnotesize\ttfamily void free\+Config (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structConfig}{Config}} $\ast$}]{cfg }\end{DoxyParamCaption})}
+
+Frees the memory allocated memory by \mbox{\hyperlink{config_8h_a82637f5594f17e672dbbe0006067adf2}{read\+Config\+File(int)}} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em cfg} & A pointer to a \mbox{\hyperlink{structConfig}{Config}} to free. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{config_8h_a82637f5594f17e672dbbe0006067adf2}\label{config_8h_a82637f5594f17e672dbbe0006067adf2}} 
+\index{config.h@{config.h}!readConfigFile@{readConfigFile}}
+\index{readConfigFile@{readConfigFile}!config.h@{config.h}}
+\doxysubsubsection{\texorpdfstring{readConfigFile()}{readConfigFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structConfig}{Config}} read\+Config\+File (\begin{DoxyParamCaption}\item[{int}]{rank }\end{DoxyParamCaption})}
+
+Reads the config file for a particular rank 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em rank} & The process M\+PI rank. \\
+\hline
+\mbox{\texttt{ out}}  & {\em config} & A \mbox{\hyperlink{structConfig}{Config}} struct. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{config_8h_a880a53f188eae623b9c04cb9c5c6f538}\label{config_8h_a880a53f188eae623b9c04cb9c5c6f538}} 
+\index{config.h@{config.h}!removeNewLine@{removeNewLine}}
+\index{removeNewLine@{removeNewLine}!config.h@{config.h}}
+\doxysubsubsection{\texorpdfstring{removeNewLine()}{removeNewLine()}}
+{\footnotesize\ttfamily void remove\+New\+Line (\begin{DoxyParamCaption}\item[{char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Removes the \textbackslash{}n at the end of a given string if it exists 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em str} & The string (char$\ast$) to check. \\
+\hline
+\end{DoxyParams}

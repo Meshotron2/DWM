@@ -1,0 +1,89 @@
+\hypertarget{structFaceBuffer}{}\doxysection{Face\+Buffer Struct Reference}
+\label{structFaceBuffer}\index{FaceBuffer@{FaceBuffer}}
+
+
+Contains data associated with a face.  
+
+
+
+
+{\ttfamily \#include $<$facebuffer.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} \mbox{\hyperlink{structFaceBuffer_aa1bbac712f23df5172ecbb554b7bc01f}{face}}
+\item 
+int \mbox{\hyperlink{structFaceBuffer_a4d7a1a06fa3d0c5498c280dfa292df0b}{neighbour}}
+\item 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} \mbox{\hyperlink{structFaceBuffer_afdabc8b7d9bb4e829fe9c2607c122e66}{neighbour\+Face}}
+\item 
+int \mbox{\hyperlink{structFaceBuffer_a63cb7af1a8d88f5d665c5c74e343136a}{x}}
+\item 
+int \mbox{\hyperlink{structFaceBuffer_a33b9bc863e4e2364d8487695cb2d7be3}{y}}
+\item 
+int \mbox{\hyperlink{structFaceBuffer_a8955324dc8943d447c6f8326e7e6fe70}{size}}
+\item 
+float $\ast$ \mbox{\hyperlink{structFaceBuffer_a3c40542934afaeb8caa9b0347952642a}{in\+Data}}
+\item 
+float $\ast$ \mbox{\hyperlink{structFaceBuffer_a16056a8db8d230625513bc376c14c133}{out\+Data}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Contains data associated with a face. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structFaceBuffer_aa1bbac712f23df5172ecbb554b7bc01f}\label{structFaceBuffer_aa1bbac712f23df5172ecbb554b7bc01f}} 
+\index{FaceBuffer@{FaceBuffer}!face@{face}}
+\index{face@{face}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{face}{face}}
+{\footnotesize\ttfamily Face\+Buffer\+::face}
+
+A Faces enum representing the face. \mbox{\Hypertarget{structFaceBuffer_a3c40542934afaeb8caa9b0347952642a}\label{structFaceBuffer_a3c40542934afaeb8caa9b0347952642a}} 
+\index{FaceBuffer@{FaceBuffer}!inData@{inData}}
+\index{inData@{inData}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{inData}{inData}}
+{\footnotesize\ttfamily Face\+Buffer\+::in\+Data}
+
+The input buffer for this face where the neighbour data will be read to. \mbox{\Hypertarget{structFaceBuffer_a4d7a1a06fa3d0c5498c280dfa292df0b}\label{structFaceBuffer_a4d7a1a06fa3d0c5498c280dfa292df0b}} 
+\index{FaceBuffer@{FaceBuffer}!neighbour@{neighbour}}
+\index{neighbour@{neighbour}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{neighbour}{neighbour}}
+{\footnotesize\ttfamily Face\+Buffer\+::neighbour}
+
+The neighbours rank this face communicates with. \mbox{\Hypertarget{structFaceBuffer_afdabc8b7d9bb4e829fe9c2607c122e66}\label{structFaceBuffer_afdabc8b7d9bb4e829fe9c2607c122e66}} 
+\index{FaceBuffer@{FaceBuffer}!neighbourFace@{neighbourFace}}
+\index{neighbourFace@{neighbourFace}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{neighbourFace}{neighbourFace}}
+{\footnotesize\ttfamily Face\+Buffer\+::neighbour\+Face}
+
+A Faces enum representing the neighbours face this face communicates with. \mbox{\Hypertarget{structFaceBuffer_a16056a8db8d230625513bc376c14c133}\label{structFaceBuffer_a16056a8db8d230625513bc376c14c133}} 
+\index{FaceBuffer@{FaceBuffer}!outData@{outData}}
+\index{outData@{outData}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{outData}{outData}}
+{\footnotesize\ttfamily Face\+Buffer\+::out\+Data}
+
+The output buffer for this face where the neighbour data will be written to. \mbox{\Hypertarget{structFaceBuffer_a8955324dc8943d447c6f8326e7e6fe70}\label{structFaceBuffer_a8955324dc8943d447c6f8326e7e6fe70}} 
+\index{FaceBuffer@{FaceBuffer}!size@{size}}
+\index{size@{size}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily Face\+Buffer\+::size}
+
+The total size in floats of the face. Calculated by \mbox{\hyperlink{structFaceBuffer_a63cb7af1a8d88f5d665c5c74e343136a}{Face\+Buffer\+::x}} $\ast$ \mbox{\hyperlink{structFaceBuffer_a33b9bc863e4e2364d8487695cb2d7be3}{Face\+Buffer\+::y}}. \mbox{\Hypertarget{structFaceBuffer_a63cb7af1a8d88f5d665c5c74e343136a}\label{structFaceBuffer_a63cb7af1a8d88f5d665c5c74e343136a}} 
+\index{FaceBuffer@{FaceBuffer}!x@{x}}
+\index{x@{x}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily Face\+Buffer\+::x}
+
+The size in floats of the x axis of this face. \mbox{\Hypertarget{structFaceBuffer_a33b9bc863e4e2364d8487695cb2d7be3}\label{structFaceBuffer_a33b9bc863e4e2364d8487695cb2d7be3}} 
+\index{FaceBuffer@{FaceBuffer}!y@{y}}
+\index{y@{y}!FaceBuffer@{FaceBuffer}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily Face\+Buffer\+::y}
+
+The size in floats of the y axis of this face. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{facebuffer_8h}{facebuffer.\+h}}\end{DoxyCompactItemize}

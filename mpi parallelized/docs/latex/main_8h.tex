@@ -1,0 +1,135 @@
+\hypertarget{main_8h}{}\doxysection{main.\+h File Reference}
+\label{main_8h}\index{main.h@{main.h}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$mpi.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}node.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}facebuffer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}header.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8h_a101623533f2a34e162b4d07488285c88}{inject\+Samples}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$sources, float $\ast$$\ast$source\+Data, const int source\+Count, const int iteration)
+\item 
+void \mbox{\hyperlink{main_8h_a9cd4418b34bc17ed87d4529b4ab9f08b}{read\+Samples}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$receivers, float $\ast$$\ast$receiver\+Data, const int receiver\+Count, const int iteration)
+\item 
+void \mbox{\hyperlink{main_8h_a18e0c52f547e54268f1fceed7b79331b}{scatter\+Pass}} (const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h, \mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$ns)
+\item 
+void \mbox{\hyperlink{main_8h_ab2086e92a9dbffcc10a4273f78157e3b}{delay\+Pass}} (const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h, \mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$ns)
+\item 
+void \mbox{\hyperlink{main_8h_a61a714c486599166a9c59ecdb1647d33}{write\+Excitation}} (float $\ast$$\ast$receiver\+Data, const int receiver\+Count, const int iteration\+Cnt)
+\item 
+float $\ast$$\ast$ \mbox{\hyperlink{main_8h_accb074094bc5445ef9dd71b8902120ff}{read\+Source\+Files}} (char $\ast$$\ast$argv, const int source\+File\+Cnt, const int iteration\+Cnt)
+\item 
+void \mbox{\hyperlink{main_8h_a53390820ee30c03d0b0500b89e77e6ce}{free\+Source\+Data}} (float $\ast$$\ast$$\ast$source\+Data, int source\+Cnt)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8h_ab2086e92a9dbffcc10a4273f78157e3b}\label{main_8h_ab2086e92a9dbffcc10a4273f78157e3b}} 
+\index{main.h@{main.h}!delayPass@{delayPass}}
+\index{delayPass@{delayPass}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{delayPass()}{delayPass()}}
+{\footnotesize\ttfamily void delay\+Pass (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h,  }\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{ns }\end{DoxyParamCaption})}
+
+Does the D\+WM algorithm delay pass. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em h} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em ns} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_a53390820ee30c03d0b0500b89e77e6ce}\label{main_8h_a53390820ee30c03d0b0500b89e77e6ce}} 
+\index{main.h@{main.h}!freeSourceData@{freeSourceData}}
+\index{freeSourceData@{freeSourceData}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{freeSourceData()}{freeSourceData()}}
+{\footnotesize\ttfamily void free\+Source\+Data (\begin{DoxyParamCaption}\item[{float $\ast$$\ast$$\ast$}]{source\+Data,  }\item[{int}]{source\+Cnt }\end{DoxyParamCaption})}
+
+Frees memory allocated by \mbox{\hyperlink{main_8h_accb074094bc5445ef9dd71b8902120ff}{read\+Source\+Files(char$\ast$$\ast$, const int, const int)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em source\+Data} & The source data. \\
+\hline
+\mbox{\texttt{ in}}  & {\em source\+Cnt} & The number of sources. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_a101623533f2a34e162b4d07488285c88}\label{main_8h_a101623533f2a34e162b4d07488285c88}} 
+\index{main.h@{main.h}!injectSamples@{injectSamples}}
+\index{injectSamples@{injectSamples}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{injectSamples()}{injectSamples()}}
+{\footnotesize\ttfamily void inject\+Samples (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$}]{sources,  }\item[{float $\ast$$\ast$}]{source\+Data,  }\item[{const int}]{source\+Count,  }\item[{const int}]{iteration }\end{DoxyParamCaption})}
+
+Injects the values from source\+Data into source nodes pressure \mbox{\hyperlink{structNode_ad4cecfcf01c7857a8f6ed9cbe0bfb538}{Node\+::p}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em sources} & An array of Node$\ast$ to the source nodes returned by \mbox{\hyperlink{node_8h_a5f725f42e8cdab736dee4bbc31346137}{get\+All\+Nodes\+Of\+Type(\+Node$\ast$$\ast$$\ast$, const Header$\ast$, Node$\ast$$\ast$$\ast$, const char)}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em source\+Data} & Source nodes data returned by \mbox{\hyperlink{main_8h_accb074094bc5445ef9dd71b8902120ff}{read\+Source\+Files(char$\ast$$\ast$, const int, const int)}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em source\+Count} & The number of source files. \\
+\hline
+\mbox{\texttt{ in}}  & {\em iteration} & T\+He current iteration. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_a9cd4418b34bc17ed87d4529b4ab9f08b}\label{main_8h_a9cd4418b34bc17ed87d4529b4ab9f08b}} 
+\index{main.h@{main.h}!readSamples@{readSamples}}
+\index{readSamples@{readSamples}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{readSamples()}{readSamples()}}
+{\footnotesize\ttfamily void read\+Samples (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$}]{receivers,  }\item[{float $\ast$$\ast$}]{receiver\+Data,  }\item[{const int}]{receiver\+Count,  }\item[{const int}]{iteration }\end{DoxyParamCaption})}
+
+Reads the current pressure \mbox{\hyperlink{structNode_ad4cecfcf01c7857a8f6ed9cbe0bfb538}{Node\+::p}} into receiver\+Data 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em receivers} & An array of Node$\ast$ to the receiver nodes returned by \mbox{\hyperlink{node_8h_a5f725f42e8cdab736dee4bbc31346137}{get\+All\+Nodes\+Of\+Type(\+Node$\ast$$\ast$$\ast$, const Header$\ast$, Node$\ast$$\ast$$\ast$, const char)}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em receiver\+Data} & Receiver nodes data returned by \mbox{\hyperlink{node_8h_a4b31a43f034f18a122a78d6e6354cd19}{alloc\+Receivers\+Memory(const int, const int)}}. \\
+\hline
+\mbox{\texttt{ in}}  & {\em receiver\+Count} & The number of receiver files. \\
+\hline
+\mbox{\texttt{ in}}  & {\em iteration} & T\+He current iteration. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_accb074094bc5445ef9dd71b8902120ff}\label{main_8h_accb074094bc5445ef9dd71b8902120ff}} 
+\index{main.h@{main.h}!readSourceFiles@{readSourceFiles}}
+\index{readSourceFiles@{readSourceFiles}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{readSourceFiles()}{readSourceFiles()}}
+{\footnotesize\ttfamily float$\ast$$\ast$ read\+Source\+Files (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{argv,  }\item[{const int}]{source\+File\+Cnt,  }\item[{const int}]{iteration\+Cnt }\end{DoxyParamCaption})}
+
+Reads souce file data into memory. This function allocates momory that should be freed by calling \mbox{\hyperlink{main_8h_a53390820ee30c03d0b0500b89e77e6ce}{free\+Source\+Data(float$\ast$$\ast$$\ast$, int)}}. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em argv} & An array of strings contaning source file names. \\
+\hline
+\mbox{\texttt{ in}}  & {\em source\+File\+Cnt} & The number of source files. \\
+\hline
+\mbox{\texttt{ in}}  & {\em iteration\+Cnt} & The number of iterations. \\
+\hline
+\mbox{\texttt{ out}}  & {\em source\+Data} & The source\+Data 2D array representing \mbox{[}source\mbox{]}\mbox{[}iteration\mbox{]}. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_a18e0c52f547e54268f1fceed7b79331b}\label{main_8h_a18e0c52f547e54268f1fceed7b79331b}} 
+\index{main.h@{main.h}!scatterPass@{scatterPass}}
+\index{scatterPass@{scatterPass}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{scatterPass()}{scatterPass()}}
+{\footnotesize\ttfamily void scatter\+Pass (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h,  }\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{ns }\end{DoxyParamCaption})}
+
+Does the D\+WM algorithm scatter pass. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em h} & A pointer to the Header containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em ns} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8h_a61a714c486599166a9c59ecdb1647d33}\label{main_8h_a61a714c486599166a9c59ecdb1647d33}} 
+\index{main.h@{main.h}!writeExcitation@{writeExcitation}}
+\index{writeExcitation@{writeExcitation}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{writeExcitation()}{writeExcitation()}}
+{\footnotesize\ttfamily void write\+Excitation (\begin{DoxyParamCaption}\item[{float $\ast$$\ast$}]{receiver\+Data,  }\item[{const int}]{receiver\+Count,  }\item[{const int}]{iteration\+Cnt }\end{DoxyParamCaption})}
+
+Writes receiver\+Data to files in a R\+AW audio format. One file for each receiver. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em receiver\+Data} & The receiver data. \\
+\hline
+\mbox{\texttt{ in}}  & {\em receiver\+Count} & The number of receivers. \\
+\hline
+\mbox{\texttt{ in}}  & {\em iteration\+Cnt} & The number of iterations. \\
+\hline
+\end{DoxyParams}

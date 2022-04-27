@@ -1,0 +1,150 @@
+\hypertarget{facebuffer_8h}{}\doxysection{facebuffer.\+h File Reference}
+\label{facebuffer_8h}\index{facebuffer.h@{facebuffer.h}}
+{\ttfamily \#include $<$stdint-\/gcc.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}header.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}node.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}}
+\begin{DoxyCompactList}\small\item\em Contains data associated with a face. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{facebuffer_8h_a759fecbe692a5b9fc639fd1ee982463f}\label{facebuffer_8h_a759fecbe692a5b9fc639fd1ee982463f}} 
+typedef enum \mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} {\bfseries Faces}
+\item 
+\mbox{\Hypertarget{facebuffer_8h_a00e232280ae48667eaed400227021260}\label{facebuffer_8h_a00e232280ae48667eaed400227021260}} 
+typedef struct \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} {\bfseries Face\+Buffer}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} \{ \newline
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea47321105d20c4efd6c573a6d829e1ad9}{Top}}, 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea05cdd4fa6b505ee008f4e865acfecccb}{Bottom}}, 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea9d4d8b0b72fc2659da772d761a3c5ecb}{Left}}, 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faead48f7af8c070184f3774c8e85854eb66}{Right}}, 
+\newline
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea0cf84affdc2d20637bc9e8120b80ae95}{Front}}, 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea36625780699489b5c3dfceadfb9c27d1}{Back}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{facebuffer_8h_a2906ff14fdd608332114e89f7d4bad08}{setup\+Face\+Buffer}} (\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$f, \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h)
+\item 
+void \mbox{\hyperlink{facebuffer_8h_ae610df0a742e4664ea163bc9e42ca9ad}{free\+Face\+Buffer}} (\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$buf)
+\item 
+void \mbox{\hyperlink{facebuffer_8h_a76e1030d4dbd0fdd09a72d03b9b6ed1a}{fill\+Face\+Buffer}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$nodes, \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h, \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$buf)
+\item 
+void \mbox{\hyperlink{facebuffer_8h_ab3a014a3b5b6ac6adb5a5e391dd1cce7}{read\+Face\+Buffer}} (\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$nodes, \mbox{\hyperlink{structDWMHeader}{Header}} $\ast$h, \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$buf)
+\item 
+\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} \mbox{\hyperlink{facebuffer_8h_a82c057942c1e03921af34061db9f573e}{get\+Opposing\+Face}} (\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} f)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}} 
+\index{facebuffer.h@{facebuffer.h}!Faces@{Faces}}
+\index{Faces@{Faces}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{Faces}{Faces}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Top@{Top}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Top@{Top}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea47321105d20c4efd6c573a6d829e1ad9}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea47321105d20c4efd6c573a6d829e1ad9}} 
+Top&The top face \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Bottom@{Bottom}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Bottom@{Bottom}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea05cdd4fa6b505ee008f4e865acfecccb}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea05cdd4fa6b505ee008f4e865acfecccb}} 
+Bottom&The bottom face \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Left@{Left}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Left@{Left}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea9d4d8b0b72fc2659da772d761a3c5ecb}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea9d4d8b0b72fc2659da772d761a3c5ecb}} 
+Left&The left face \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Right@{Right}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Right@{Right}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faead48f7af8c070184f3774c8e85854eb66}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faead48f7af8c070184f3774c8e85854eb66}} 
+Right&The right face \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Front@{Front}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Front@{Front}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea0cf84affdc2d20637bc9e8120b80ae95}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea0cf84affdc2d20637bc9e8120b80ae95}} 
+Front&The front face \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Back@{Back}!facebuffer.h@{facebuffer.h}}\index{facebuffer.h@{facebuffer.h}!Back@{Back}}}\mbox{\Hypertarget{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea36625780699489b5c3dfceadfb9c27d1}\label{facebuffer_8h_a157b3a6855654482f9a6ab32e8698faea36625780699489b5c3dfceadfb9c27d1}} 
+Back&The back face \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{facebuffer_8h_a76e1030d4dbd0fdd09a72d03b9b6ed1a}\label{facebuffer_8h_a76e1030d4dbd0fdd09a72d03b9b6ed1a}} 
+\index{facebuffer.h@{facebuffer.h}!fillFaceBuffer@{fillFaceBuffer}}
+\index{fillFaceBuffer@{fillFaceBuffer}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{fillFaceBuffer()}{fillFaceBuffer()}}
+{\footnotesize\ttfamily void fill\+Face\+Buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{nodes,  }\item[{\mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h,  }\item[{\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$}]{buf }\end{DoxyParamCaption})}
+
+Fills the \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} buf with the appropriate data from nodes 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room state to read data from. \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & A Header pointer containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em buf} & A \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} pointer whose \mbox{\hyperlink{structFaceBuffer_a16056a8db8d230625513bc376c14c133}{Face\+Buffer\+::out\+Data}} will be filled. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{facebuffer_8h_ae610df0a742e4664ea163bc9e42ca9ad}\label{facebuffer_8h_ae610df0a742e4664ea163bc9e42ca9ad}} 
+\index{facebuffer.h@{facebuffer.h}!freeFaceBuffer@{freeFaceBuffer}}
+\index{freeFaceBuffer@{freeFaceBuffer}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{freeFaceBuffer()}{freeFaceBuffer()}}
+{\footnotesize\ttfamily void free\+Face\+Buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$}]{buf }\end{DoxyParamCaption})}
+
+Releases the memory allocated by \mbox{\hyperlink{facebuffer_8h_a2906ff14fdd608332114e89f7d4bad08}{setup\+Face\+Buffer(\+Face\+Buffer$\ast$, Header$\ast$)}} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em buf} & A \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} pointer to free; \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{facebuffer_8h_a82c057942c1e03921af34061db9f573e}\label{facebuffer_8h_a82c057942c1e03921af34061db9f573e}} 
+\index{facebuffer.h@{facebuffer.h}!getOpposingFace@{getOpposingFace}}
+\index{getOpposingFace@{getOpposingFace}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{getOpposingFace()}{getOpposingFace()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}} get\+Opposing\+Face (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{facebuffer_8h_a157b3a6855654482f9a6ab32e8698fae}{Faces}}}]{f }\end{DoxyParamCaption})}
+
+The returns the opposing face of f. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em f} & The face to determine the opposite to. \\
+\hline
+\mbox{\texttt{ out}}  & {\em oppF} & The opposite face to f. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{facebuffer_8h_ab3a014a3b5b6ac6adb5a5e391dd1cce7}\label{facebuffer_8h_ab3a014a3b5b6ac6adb5a5e391dd1cce7}} 
+\index{facebuffer.h@{facebuffer.h}!readFaceBuffer@{readFaceBuffer}}
+\index{readFaceBuffer@{readFaceBuffer}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{readFaceBuffer()}{readFaceBuffer()}}
+{\footnotesize\ttfamily void read\+Face\+Buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structNode}{Node}} $\ast$$\ast$$\ast$}]{nodes,  }\item[{\mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h,  }\item[{\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$}]{buf }\end{DoxyParamCaption})}
+
+Reads the \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} buf to the appropriate nodes positions. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em nodes} & A 3D \mbox{\hyperlink{structNode}{Node}} array representing the room state to write data to. \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & A Header pointer containing room dimensions. \\
+\hline
+\mbox{\texttt{ in}}  & {\em buf} & A \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} pointer whose \mbox{\hyperlink{structFaceBuffer_a3c40542934afaeb8caa9b0347952642a}{Face\+Buffer\+::in\+Data}} will be read. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{facebuffer_8h_a2906ff14fdd608332114e89f7d4bad08}\label{facebuffer_8h_a2906ff14fdd608332114e89f7d4bad08}} 
+\index{facebuffer.h@{facebuffer.h}!setupFaceBuffer@{setupFaceBuffer}}
+\index{setupFaceBuffer@{setupFaceBuffer}!facebuffer.h@{facebuffer.h}}
+\doxysubsubsection{\texorpdfstring{setupFaceBuffer()}{setupFaceBuffer()}}
+{\footnotesize\ttfamily void setup\+Face\+Buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$}]{f,  }\item[{\mbox{\hyperlink{structDWMHeader}{Header}} $\ast$}]{h }\end{DoxyParamCaption})}
+
+Sets up the \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} f according to its \mbox{\hyperlink{structFaceBuffer_aa1bbac712f23df5172ecbb554b7bc01f}{Face\+Buffer\+::face}}. Fills all the other fields and allocates memory for both buffers. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em f} & A \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} pointer to fill. Must have its \mbox{\hyperlink{structFaceBuffer_aa1bbac712f23df5172ecbb554b7bc01f}{Face\+Buffer\+::face}} correctly set. \\
+\hline
+\mbox{\texttt{ in}}  & {\em h} & A Header pointer containing room information used to calculate the buffer sizes. \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,65 @@
+\hypertarget{structConfig}{}\doxysection{Config Struct Reference}
+\label{structConfig}\index{Config@{Config}}
+
+
+Contains data associated with a particular configuration.  
+
+
+
+
+{\ttfamily \#include $<$config.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{structConfig_a85232ab59d21426f1d923ee0d8bcbed9}{face\+Count}}
+\item 
+\mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} $\ast$ \mbox{\hyperlink{structConfig_ae0a027348fd99f6caa35e6b8e256d988}{faces}}
+\item 
+int \mbox{\hyperlink{structConfig_af3862e37ebf04d68e0373de892fa8f08}{source\+Cnt}}
+\item 
+char $\ast$$\ast$ \mbox{\hyperlink{structConfig_a4fa2931979e7793fc3296b48ffefa05f}{source\+File\+Names}}
+\item 
+char $\ast$ \mbox{\hyperlink{structConfig_ac48f35fe57f881051d892a958d725553}{room\+File\+Name}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Contains data associated with a particular configuration. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structConfig_a85232ab59d21426f1d923ee0d8bcbed9}\label{structConfig_a85232ab59d21426f1d923ee0d8bcbed9}} 
+\index{Config@{Config}!faceCount@{faceCount}}
+\index{faceCount@{faceCount}!Config@{Config}}
+\doxysubsubsection{\texorpdfstring{faceCount}{faceCount}}
+{\footnotesize\ttfamily Config\+::face\+Count}
+
+The number of faces that we need to communicate with. \mbox{\Hypertarget{structConfig_ae0a027348fd99f6caa35e6b8e256d988}\label{structConfig_ae0a027348fd99f6caa35e6b8e256d988}} 
+\index{Config@{Config}!faces@{faces}}
+\index{faces@{faces}!Config@{Config}}
+\doxysubsubsection{\texorpdfstring{faces}{faces}}
+{\footnotesize\ttfamily Config\+::faces}
+
+An array of \mbox{\hyperlink{structConfig_a85232ab59d21426f1d923ee0d8bcbed9}{Config\+::face\+Count}} \mbox{\hyperlink{structFaceBuffer}{Face\+Buffer}} structs. \mbox{\Hypertarget{structConfig_ac48f35fe57f881051d892a958d725553}\label{structConfig_ac48f35fe57f881051d892a958d725553}} 
+\index{Config@{Config}!roomFileName@{roomFileName}}
+\index{roomFileName@{roomFileName}!Config@{Config}}
+\doxysubsubsection{\texorpdfstring{roomFileName}{roomFileName}}
+{\footnotesize\ttfamily Config\+::room\+File\+Name}
+
+The file name for the room file. \mbox{\Hypertarget{structConfig_af3862e37ebf04d68e0373de892fa8f08}\label{structConfig_af3862e37ebf04d68e0373de892fa8f08}} 
+\index{Config@{Config}!sourceCnt@{sourceCnt}}
+\index{sourceCnt@{sourceCnt}!Config@{Config}}
+\doxysubsubsection{\texorpdfstring{sourceCnt}{sourceCnt}}
+{\footnotesize\ttfamily Config\+::source\+Cnt}
+
+The number of source files. \mbox{\Hypertarget{structConfig_a4fa2931979e7793fc3296b48ffefa05f}\label{structConfig_a4fa2931979e7793fc3296b48ffefa05f}} 
+\index{Config@{Config}!sourceFileNames@{sourceFileNames}}
+\index{sourceFileNames@{sourceFileNames}!Config@{Config}}
+\doxysubsubsection{\texorpdfstring{sourceFileNames}{sourceFileNames}}
+{\footnotesize\ttfamily Config\+::source\+File\+Names}
+
+An array of \mbox{\hyperlink{structConfig_af3862e37ebf04d68e0373de892fa8f08}{Config\+::source\+Cnt}} strings containing the names off source files. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{config_8h}{config.\+h}}\end{DoxyCompactItemize}
