@@ -117,6 +117,10 @@ int main(int argc, char *argv[])
             1e-9 * (tnow.tv_nsec - tstart.tv_nsec)); 
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
+    
+    // tell the monitor files are ready to be sent
+    md.percentage = -1.0f;
+    monitorSend(&md);
 
 	freeNodes(&h, nodes);
 	freeAllNodesOfType(&receivers);
