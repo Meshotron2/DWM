@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 	printf("Process %d beginning DWM loop. Has %d faces %d sources and %d receivers\n", world_rank, cfg.faceCount, sourceCnt, receiverCnt);
 
 	MonitorData md = {0};
-	md.pid = world_rank;
+	md.pid = world_rank + 1;
 	float totalSendTime = 0.0f, totalRecvTime = 0.0f, totalDelayTime = 0.0f, totalScatterTime = 0.0f;
 	struct timespec start, now;
 	struct timespec tstart, tnow;
