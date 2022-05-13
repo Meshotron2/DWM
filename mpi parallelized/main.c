@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	// DWM algorithm loop
 	for (int i = 0; i < iterationCnt; i++)
 	{
-		if(i % 250 == 0)
+		if(i % 250 == 1)
 		{
 			md.percentage = (i / (float)iterationCnt) * 100.0f;
 			md.sendTime = totalSendTime / i;
