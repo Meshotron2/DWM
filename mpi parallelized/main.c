@@ -32,12 +32,12 @@ int main(int argc, char *argv[])
 
 	Node** sources;
 	int sourceCnt = getAllNodesOfType(&sources, &h, nodes, SRC_NODE);
-	if (sourceCnt != cfg.sourceCnt)
-	{
-		fprintf(stderr, "Number of source files doesn't match the number of source nodes");
-	}
+	// if (sourceCnt != cfg.sourceCnt)
+	// {
+	// 	fprintf(stderr, "Number of source files doesn't match the number of source nodes");
+	// }
 
-	float** sourceData = readSourceFiles(cfg.sourceFileNames, cfg.sourceCnt, iterationCnt);
+	//float** sourceData = readSourceFiles(cfg.sourceFileNames, cfg.sourceCnt, iterationCnt);
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	clock_gettime(CLOCK_MONOTONIC, &tstart);
 
 	// DWM algorithm loop
+	injectSamples(sources, NULL, sourceCnt, 0);
 	for (int i = 0; i < iterationCnt; i++)
 	{
 		if(i % 250 == 1)
@@ -68,8 +69,6 @@ int main(int argc, char *argv[])
 		
 		// wait until all processes are here
 		MPI_Barrier(MPI_COMM_WORLD);
-		
-		injectSamples(sources, sourceData, sourceCnt, i);
 		
 		clock_gettime(CLOCK_MONOTONIC, &start);
 		scatterPass(&h, nodes);
@@ -117,16 +116,15 @@ int main(int argc, char *argv[])
             1e-9 * (tnow.tv_nsec - tstart.tv_nsec)); 
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
-    
+
     // tell the monitor files are ready to be sent
     md.percentage = -1.0f;
     monitorSend(&md);
-
 	freeNodes(&h, nodes);
 	freeAllNodesOfType(&receivers);
 	freeAllNodesOfType(&sources);
 	freeReceiversMemory(&receiversData, receiverCnt);
-	freeSourceData(&sourceData, sourceCnt);
+	//freeSourceData(&sourceData, sourceCnt);
 	freeConfig(&cfg);
 
 	MPI_Finalize();
@@ -142,18 +140,22 @@ void readSamples(Node** sources, float** receiverData, const int receiverCount, 
 	}
 }
 
+//modified to not inject a DIRAC on all sources on the first iteration
 void injectSamples(Node** receivers, float** sourceData, const int sourceCount, const int iteration)
 {
-	float f;
-	for (int i = 0; i < sourceCount; i++)
+	if(iteration == 0)
 	{
-		f = sourceData[i][iteration] / 2;
-		receivers[i]->pUpI += f;
-		receivers[i]->pDownI += f;
-		receivers[i]->pRightI += f;
-		receivers[i]->pLeftI += f;
-		receivers[i]->pFrontI += f;
-		receivers[i]->pBackI += f;
+		float f;
+		for (int i = 0; i < sourceCount; i++)
+		{
+			f = 1.0f / 2;
+			receivers[i]->pUpI += f;
+			receivers[i]->pDownI += f;
+			receivers[i]->pRightI += f;
+			receivers[i]->pLeftI += f;
+			receivers[i]->pFrontI += f;
+			receivers[i]->pBackI += f;
+		}
 	}
 }
 
