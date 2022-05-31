@@ -60,6 +60,32 @@ exit
 mpirun -n 1 -host hostname echo "Hello World!" # you should see Hello World!
 ```
 
+# A note on proper node numbering
+
+In order to make everything work properly with the other components (mainly `room_partitioner`) nodes should be numbered based on their physical position.
+(you can use whatever naming convention you want as long as it's consistent)
+```c
+// the axis convention we are using
+/*   up
+*    |z
+*    |
+*    |      y
+*   ,.------- right
+*  /
+*x/ front
+*/
+```
+Suppose you have a physical setup of (xN, yN, zN) nodes. Node at position (x,y,z) is the (x * yN * zN + y * zN + z)n't node.
+
+So:
+- node1 at (0, 0, 0)
+- node2 at (0, 0, 1)
+- node3 at (0, 1, 0)
+- node4 at (0, 1, 1)
+...
+
+These is also the order hostnames should be passed to `room_partitioner`
+
 # Usefull Links
 
 - https://docs.oracle.com/cd/E19708-01/821-1319-10/ExecutingPrograms.html
