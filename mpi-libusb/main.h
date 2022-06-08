@@ -10,6 +10,7 @@
 #include "header.h"
 #include "config.h"
 #include "usbcomm.h"
+#include "monitor.h"
 
 /** @file */
 
