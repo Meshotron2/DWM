@@ -75,7 +75,7 @@ static void usbPrepareDevice(FaceBuffer* fb)
 
         libusb_get_device_descriptor(list[i], &desc);
         
-        if(desc.idVendor == PROLIFIC_VID && (desc.idProduct == PL25A1_PID || desc.idProduct == PL2501_PID))
+        if(desc.idVendor == PROLIFIC_VID && desc.idProduct == PL25A1_PID)
         {
             printf("Found a Prolific Host to Host Bridge Controller\n");
             libusb_open(list[i], &(fb->device));

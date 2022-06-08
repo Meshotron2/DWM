@@ -8,7 +8,6 @@
 #pragma once
 #define PROLIFIC_VID                   0x067B   // Prolific Vender ID
 #define PL25A1_PID                     0x25A1   // Prolific Product ID
-#define PL2501_PID                     0x2501   // Prolific Product IDS
 #define BULK_USB2_EP0_IN_ADDR            0x81   // Interrupt endpoint  
 #define BULK_USB2_EP1_OUT_ADDR           0x02   // Bulk endpoint 1 Out Address 
 #define BULK_USB2_EP1_IN_ADDR            0x83   // Bulk endpoint 1 In Address

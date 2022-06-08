@@ -34,12 +34,12 @@ int main(int argc, char *argv[])
 
 	Node** sources;
 	int sourceCnt = getAllNodesOfType(&sources, &h, nodes, SRC_NODE);
-	// if (sourceCnt != cfg.sourceCnt)
-	// {
-	// 	fprintf(stderr, "Number of source files doesn't match the number of source nodes");
-	// }
+	if (sourceCnt != cfg.sourceCnt)
+	{
+		fprintf(stderr, "Number of source files doesn't match the number of source nodes");
+	}
 
-	// float** sourceData = readSourceFiles(cfg.sourceFileNames, cfg.sourceCnt, iterationCnt);
+	float** sourceData = readSourceFiles(cfg.sourceFileNames, cfg.sourceCnt, iterationCnt);
 
 	Node** receivers;
 	int receiverCnt = getAllNodesOfType(&receivers, &h, nodes, RCVR_NODE);
@@ -48,34 +48,16 @@ int main(int argc, char *argv[])
 
 	printf("Process %d beginning DWM loop. Has %d faces %d sources and %d receivers\n", world_rank, cfg.faceCount, sourceCnt, receiverCnt);
 
-	MonitorData md = {0};
-	md.pid = world_rank + 1;
-	float totalSendTime = 0.0f, totalRecvTime = 0.0f, totalDelayTime = 0.0f, totalScatterTime = 0.0f;
 	struct timespec start, now;
-	struct timespec tstart, tnow;
-	clock_gettime(CLOCK_MONOTONIC, &tstart);
 
-	injectSamples(sources, NULL, sourceCnt, 0);
-    
-    //MPI_Barrier(MPI_COMM_WORLD);
-    
 	clock_gettime(CLOCK_MONOTONIC, &start);
 	for (int i = 0; i < iterationCnt; i++)
 	{
-		if(i % 100 == 1)
-		{
-			md.percentage = (i / (float)iterationCnt) * 100.0f;
-			md.sendTime = totalSendTime / i;
-			md.receptionTime = totalRecvTime / i;
-			md.scatterPassTime = totalScatterTime / i;
-			md.delayPassTime = totalDelayTime / i;
-			monitorSend(&md);
-		}
+		// MPI_Barrier(MPI_COMM_WORLD);
 		
-		clock_gettime(CLOCK_MONOTONIC, &start);
+		injectSamples(sources, sourceData, sourceCnt, i);
+		
 		scatterPass(&h, nodes);
-		clock_gettime(CLOCK_MONOTONIC, &now);
-		totalScatterTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 
 		readSamples(receivers, receiversData, receiverCnt, i);
 
@@ -84,21 +66,11 @@ int main(int argc, char *argv[])
 			FaceBuffer* cFace = &(cfg.faces[f]);
 			fillFaceBuffer(nodes, &h, cFace);
 		}
-		clock_gettime(CLOCK_MONOTONIC, &start);
 		usbSend();
-		clock_gettime(CLOCK_MONOTONIC, &now);
-		totalSendTime+= (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 		
-		clock_gettime(CLOCK_MONOTONIC, &start);
 		delayPass(&h, nodes);
-		clock_gettime(CLOCK_MONOTONIC, &now);
-		totalDelayTime += (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 
-		clock_gettime(CLOCK_MONOTONIC, &start);
 		usbRecv();
-		clock_gettime(CLOCK_MONOTONIC, &now);
-		
-		totalRecvTime+= (now.tv_sec - start.tv_sec) + 1e-9 * (now.tv_nsec - start.tv_nsec);
 		for (int f = 0; f < cfg.faceCount; f++)
 		{
 			FaceBuffer* cFace = &(cfg.faces[f]);
@@ -106,22 +78,20 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	clock_gettime(CLOCK_MONOTONIC, &tnow);
-	printf("DWM-3D execution time: %lf\n",
-            (tnow.tv_sec - tstart.tv_sec) +
-            1e-9 * (tnow.tv_nsec - tstart.tv_nsec)); 
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	printf("DWM Execution Time: %lf\n",
+        (now.tv_sec - start.tv_sec) +
+        1e-9 * (now.tv_nsec - start.tv_nsec)); 
 
 	writeExcitation(receiversData, receiverCnt, iterationCnt);
 
 	usbDestroy();
 
-	md.percentage = -1.0f;
-    monitorSend(&md);
 	freeNodes(&h, nodes);
 	freeAllNodesOfType(&receivers);
 	freeAllNodesOfType(&sources);
 	freeReceiversMemory(&receiversData, receiverCnt);
-	//freeSourceData(&sourceData, sourceCnt);
+	freeSourceData(&sourceData, sourceCnt);
 	freeConfig(&cfg);
 
 	MPI_Finalize();
@@ -139,19 +109,16 @@ void readSamples(Node** sources, float** receiverData, const int receiverCount, 
 
 void injectSamples(Node** receivers, float** sourceData, const int sourceCount, const int iteration)
 {
-	if(iteration == 0)
+	float f;
+	for (int i = 0; i < sourceCount; i++)
 	{
-		float f;
-		for (int i = 0; i < sourceCount; i++)
-		{
-			f = 1.0f / 2;
-			receivers[i]->pUpI += f;
-			receivers[i]->pDownI += f;
-			receivers[i]->pRightI += f;
-			receivers[i]->pLeftI += f;
-			receivers[i]->pFrontI += f;
-			receivers[i]->pBackI += f;
-		}
+		f = sourceData[i][iteration] / 2;
+		receivers[i]->pUpI += f;
+		receivers[i]->pDownI += f;
+		receivers[i]->pRightI += f;
+		receivers[i]->pLeftI += f;
+		receivers[i]->pFrontI += f;
+		receivers[i]->pBackI += f;
 	}
 }
 
